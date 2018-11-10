@@ -12,7 +12,7 @@ public class mailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    private String from = "2586365688@qq.com";
+    private String from = "mindmap03@163.com";
 
     public void sendSimpleMail(String to, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
