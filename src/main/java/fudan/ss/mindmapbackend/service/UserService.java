@@ -1,9 +1,7 @@
 package fudan.ss.mindmapbackend.service;
 
 import fudan.ss.mindmapbackend.model.*;
-import fudan.ss.mindmapbackend.repository.StudentRepository;
-import fudan.ss.mindmapbackend.repository.TeacherRepository;
-import fudan.ss.mindmapbackend.repository.UserTempRepository;
+import fudan.ss.mindmapbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

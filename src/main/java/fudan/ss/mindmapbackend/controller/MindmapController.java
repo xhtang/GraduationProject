@@ -1,14 +1,9 @@
 package fudan.ss.mindmapbackend.controller;
 
 import com.google.gson.Gson;
-import fudan.ss.mindmapbackend.controller.json_model.MindmapIdName;
-import fudan.ss.mindmapbackend.controller.json_model.Mindmap_json;
-import fudan.ss.mindmapbackend.controller.json_model.Success;
+import fudan.ss.mindmapbackend.controller.json_model.*;
 import fudan.ss.mindmapbackend.model.*;
-import fudan.ss.mindmapbackend.service.CourseService;
-import fudan.ss.mindmapbackend.service.MindmapService;
-import fudan.ss.mindmapbackend.service.NodeChildService;
-import fudan.ss.mindmapbackend.service.NodeService;
+import fudan.ss.mindmapbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

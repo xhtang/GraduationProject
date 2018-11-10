@@ -1,7 +1,6 @@
 package fudan.ss.mindmapbackend.repository;
 
-import fudan.ss.mindmapbackend.model.Course;
-import fudan.ss.mindmapbackend.model.Teacher;
+import fudan.ss.mindmapbackend.model.*;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;

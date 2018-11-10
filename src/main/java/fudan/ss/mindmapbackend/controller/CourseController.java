@@ -2,11 +2,8 @@ package fudan.ss.mindmapbackend.controller;
 
 import fudan.ss.mindmapbackend.controller.json_model.Course_json;
 import fudan.ss.mindmapbackend.controller.json_model.Success;
-import fudan.ss.mindmapbackend.model.Course;
-import fudan.ss.mindmapbackend.model.Student;
-import fudan.ss.mindmapbackend.model.Teacher;
-import fudan.ss.mindmapbackend.service.CourseService;
-import fudan.ss.mindmapbackend.service.UserService;
+import fudan.ss.mindmapbackend.model.*;
+import fudan.ss.mindmapbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,11 +1,8 @@
 package fudan.ss.mindmapbackend.controller;
 
 import fudan.ss.mindmapbackend.controller.json_model.*;
-import fudan.ss.mindmapbackend.model.AssignmentMultiple;
-import fudan.ss.mindmapbackend.model.AssignmentShort;
-import fudan.ss.mindmapbackend.model.Node;
-import fudan.ss.mindmapbackend.service.NodeChildService;
-import fudan.ss.mindmapbackend.service.NodeService;
+import fudan.ss.mindmapbackend.model.*;
+import fudan.ss.mindmapbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
