@@ -1,10 +1,10 @@
 package fudan.ss.mindmapbackend.controller.json_model;
 
 public class NodesAccuracy {
+    private long node_id;
     private String node_topic;
     private String number;
     private String correct_number;
-
     private String accuracy;
 
     public String getNode_topic() {
@@ -37,6 +37,14 @@ public class NodesAccuracy {
 
     public void setAccuracy(String accuracy) {
         this.accuracy = accuracy;
+    }
+
+    public long getNode_id() {
+        return node_id;
+    }
+
+    public void setNode_id(long node_id) {
+        this.node_id = node_id;
     }
 }
 

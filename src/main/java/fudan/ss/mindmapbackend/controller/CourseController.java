@@ -7,6 +7,9 @@ import fudan.ss.mindmapbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @CrossOrigin
 public class CourseController {
@@ -127,6 +130,11 @@ public class CourseController {
         Course[] courses = userService.getTeacherCourses(teacher.getId());
 
         return getJsonModel(courses);
+    }
+
+    @RequestMapping(value = "/course_students/{courseId}", method = RequestMethod.GET)
+    public Iterable<Map<String, Object>> course_students(@PathVariable String courseId) {
+        return userService.getStudentsByCourseId(Integer.parseInt(courseId));
     }
 
     public static Course_json[] getJsonModel(Course[] courses ){

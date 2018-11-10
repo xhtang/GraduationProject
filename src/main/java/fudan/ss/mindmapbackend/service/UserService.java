@@ -5,6 +5,8 @@ import fudan.ss.mindmapbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class UserService {
     @Autowired
@@ -63,4 +65,8 @@ public class UserService {
     }
 
     public Note[] getStudentNotes(long id){return studentRepository.findNotes(id);}
+
+    public Iterable<Map<String, Object>> getStudentsByCourseId(long course_id) {
+        return studentRepository.findStudentsToCourse(course_id);
+    }
 }
