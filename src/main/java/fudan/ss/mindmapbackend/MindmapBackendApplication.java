@@ -18,7 +18,7 @@ public class MindmapBackendApplication {
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        //文件最大
+        ///文件最大
         factory.setMaxFileSize("35MB"); //KB,MB
         /// 设置总上传数据总大小
         factory.setMaxRequestSize("102400KB");
