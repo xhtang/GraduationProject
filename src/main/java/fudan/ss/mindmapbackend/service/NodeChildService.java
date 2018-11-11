@@ -19,6 +19,8 @@ public class NodeChildService {
     private AssignmentMultipleRepository assignmentMultipleRepository;
     @Autowired
     private AssignmentShortRepository assignmentShortRepository;
+    @Autowired
+    private StudentAnswerRepository studentAnswerRepository;
 
     public void deleteCoursewareFather(String coursewareName) {
         coursewareRepository.deleteFather(coursewareName);
@@ -70,6 +72,14 @@ public class NodeChildService {
 
     public void saveMulti(AssignmentMultiple assignmentMultiple) {
         assignmentMultipleRepository.save(assignmentMultiple);
+    }
+
+    public StudentAnswer getStudentAns(String studentName, String assignmentId) {
+        return studentAnswerRepository.findByStudentNameAndAndAssignmentId(studentName, assignmentId);
+    }
+
+    public StudentAnswer addStudentAnswer(StudentAnswer studentAnswer) {
+        return studentAnswerRepository.save(studentAnswer);
     }
 
     public void saveShort(AssignmentShort assignmentShort) {

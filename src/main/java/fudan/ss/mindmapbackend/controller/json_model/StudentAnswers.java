@@ -1,6 +1,6 @@
 package fudan.ss.mindmapbackend.controller.json_model;
 
-public class StudentAnswer {
+public class StudentAnswers {
     private String title;
     private String answer;
 

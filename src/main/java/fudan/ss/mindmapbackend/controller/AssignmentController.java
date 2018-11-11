@@ -36,9 +36,9 @@ public class AssignmentController {
         return short_jsons;
     }
 
-    @RequestMapping(value = "/answer_multiple/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.POST)
-    public Success answer_multiple(@PathVariable String course_id, @PathVariable String mindmap_id, @PathVariable String node_id,
-                                   @RequestBody StudentAnswer stu_ans) {
+    @RequestMapping(value = "/answer_multiple/{course_id}/{mindmap_id}/{node_id}/{student_name}", method = RequestMethod.POST)
+    public Success answer_multiple(@PathVariable String course_id, @PathVariable String mindmap_id, @PathVariable String node_id,@PathVariable String student_name,
+                                   @RequestBody StudentAnswers stu_ans) {
 
         Success s = new Success();
         s.setSuccess(false);
@@ -55,16 +55,32 @@ public class AssignmentController {
             }
         }
 
+        StudentAnswer studentAnswer;
+
         //比对答案
-        if(multiple_result != null){
+        if(multiple_result != null){ //找到题目
 
             int number_before = Integer.parseInt(multiple_result.getNumber());
             int correct_number_before =Integer.parseInt(multiple_result.getCorrect_number());
 
-
-            multiple_result.setNumber((number_before+1)+"");
-            if(multiple_result.getCorrect_answer().equals(stu_ans.getAnswer())){
-                multiple_result.setCorrect_number(correct_number_before+1+"");
+            studentAnswer = nodeChildService.getStudentAns(student_name, multiId);
+            if (studentAnswer == null) {
+                studentAnswer = new StudentAnswer();
+                studentAnswer.setStudentName(student_name);
+                studentAnswer.setAssignmentId(multiId);
+                studentAnswer.setAnswer(stu_ans.getAnswer());
+                nodeChildService.addStudentAnswer(studentAnswer);
+                multiple_result.setNumber((number_before+1)+"");
+                if(multiple_result.getCorrect_answer().equals(stu_ans.getAnswer())){
+                    multiple_result.setCorrect_number(correct_number_before+1+"");
+                }
+            }
+            else {
+                if (!multiple_result.getCorrect_answer().equals(studentAnswer.getAnswer()) &&
+                        multiple_result.getCorrect_answer().equals(stu_ans.getAnswer()))
+                    multiple_result.setCorrect_number(correct_number_before+1+"");
+                studentAnswer.setAnswer(stu_ans.getAnswer());
+                nodeChildService.addStudentAnswer(studentAnswer);
             }
 
             //保存multiple
