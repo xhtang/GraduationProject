@@ -14,7 +14,6 @@ public interface StudentRepository extends Neo4jRepository<Student, Long> {
     @Query("MATCH (n:Student) WHERE n.name = ({name}) RETURN n")
     Student findByName(@Param("name") String name);
 
-
     @Query("start student = node({student_id}) match (student)-[:STUDY_IN]->(courses) return courses")
     Course[] findCourses(@Param("student_id") long student_id);
 
@@ -22,7 +21,7 @@ public interface StudentRepository extends Neo4jRepository<Student, Long> {
     Note[] findNotes(@Param("student_id") long student_id);
 
     @Query("MATCH (s:Student) - [i:STUDY_IN] -> (c:Course) WHERE ID(c) = {0} " +
-            "RETURN s.id AS id, s.name AS name")
+            "RETURN s.name AS name")
     Iterable<Map<String, Object>> findStudentsToCourse(long course_id);
 }
 

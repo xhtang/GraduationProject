@@ -88,6 +88,7 @@ public class MainController {
 
     @RequestMapping(value = "/transfer", method = RequestMethod.POST)
     public Success transfer(@RequestBody UserTemp user) {
+        //long id = user.getId();
         String name = user.getUser_name();
         String password = user.getUser_pwd();
         String email = user.getEmail();
@@ -109,12 +110,15 @@ public class MainController {
                     Teacher teacher = new Teacher();
                     teacher.setName(name);
                     teacher.setPassword(password);
-                    userService.saveTeacher(teacher);
+                    teacher = userService.saveTeacher(teacher);
+                    System.out.println("      用户id:    "+ teacher.getId() + "!!!!!!!!!!!");
                 } else if (identity.equalsIgnoreCase("student")) {
                     Student student = new Student();
+                    //student.setId(id);
                     student.setName(name);
                     student.setPassword(password);
-                    userService.saveStudent(student);
+                    student = userService.saveStudent(student);
+                    System.out.println("      用户id:    "+ student.getId() + "!!!!!!!!!!!");
                 } else {
                     return s;
                 }

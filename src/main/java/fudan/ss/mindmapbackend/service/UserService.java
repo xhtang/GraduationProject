@@ -36,12 +36,12 @@ public class UserService {
         return studentRepository.findByName(name);
     }
 
-    public void saveTeacher(Teacher teacher) {
-        teacherRepository.save(teacher);
+    public Teacher saveTeacher(Teacher teacher) {
+        return teacherRepository.save(teacher);
     }
 
-    public void saveStudent(Student student) {
-        studentRepository.save(student);
+    public Student saveStudent(Student student) {
+        return studentRepository.save(student);
     }
 
     public void saveUserTemp(UserTemp userTemp) {
