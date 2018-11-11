@@ -79,6 +79,9 @@ public class AssignmentController {
                 if (!multiple_result.getCorrect_answer().equals(studentAnswer.getAnswer()) &&
                         multiple_result.getCorrect_answer().equals(stu_ans.getAnswer()))
                     multiple_result.setCorrect_number(correct_number_before+1+"");
+                else if (multiple_result.getCorrect_answer().equals(studentAnswer.getAnswer()) &&
+                        !multiple_result.getCorrect_answer().equals(stu_ans.getAnswer()))
+                    multiple_result.setCorrect_number(correct_number_before-1+"");
                 studentAnswer.setAnswer(stu_ans.getAnswer());
                 nodeChildService.addStudentAnswer(studentAnswer);
             }
