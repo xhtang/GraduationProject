@@ -134,7 +134,7 @@ public class CourseController {
 
     @RequestMapping(value = "/course_students/{courseId}", method = RequestMethod.GET)
     public Iterable<Map<String, Object>> course_students(@PathVariable String courseId) {
-        return userService.getStudentsByCourseId(Integer.parseInt(courseId));
+        return userService.getStudentsByCourseId(courseId);
     }
 
     public static Course_json[] getJsonModel(Course[] courses ){

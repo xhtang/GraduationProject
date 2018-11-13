@@ -66,7 +66,7 @@ public class UserService {
 
     public Note[] getStudentNotes(long id){return studentRepository.findNotes(id);}
 
-    public Iterable<Map<String, Object>> getStudentsByCourseId(long course_id) {
+    public Iterable<Map<String, Object>> getStudentsByCourseId(String course_id) {
         return studentRepository.findStudentsToCourse(course_id);
     }
 }
