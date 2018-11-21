@@ -18,8 +18,8 @@ public class NodesAccuracyController {
     @Autowired
     private NodeService nodeService;
 
-    @RequestMapping(value = "/nodes_accuracy/{course_id}/{mindmap_id}", method = RequestMethod.GET)
-    public List<NodesAccuracy> nodesAccuracy(@PathVariable String course_id, @PathVariable String mindmap_id) {
+    @RequestMapping(value = "/nodes_accuracy/{mindmap_id}", method = RequestMethod.GET)
+    public List<NodesAccuracy> nodesAccuracy(@PathVariable String mindmap_id) {
         List<NodesAccuracy> nodesAccuracyList = new LinkedList<>();
 
 
