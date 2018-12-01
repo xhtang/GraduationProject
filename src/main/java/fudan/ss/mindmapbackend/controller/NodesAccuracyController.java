@@ -56,7 +56,7 @@ public class NodesAccuracyController {
 
             //加入到nodesAccuracyList中
             NodesAccuracy nodesAccuracy = new NodesAccuracy();
-            nodesAccuracy.setNode_id(thisNode.getLong_id());
+            nodesAccuracy.setNode_id(thisNode.getId());
             nodesAccuracy.setNode_topic(thisNode.getTopic());
             nodesAccuracy.setNumber(number + "");
             nodesAccuracy.setCorrect_number(correctNumber + "");
