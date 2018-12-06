@@ -22,8 +22,6 @@ public class NodesAccuracyController {
     public List<NodesAccuracy> nodesAccuracy(@PathVariable String mindmap_id) {
         List<NodesAccuracy> nodesAccuracyList = new LinkedList<>();
 
-
-        //course_id既然没有用 干嘛要传过来 ？
         //获得mindmap
         Mindmap tempMindmap = mindmapService.findByMindmapId(mindmap_id);
 

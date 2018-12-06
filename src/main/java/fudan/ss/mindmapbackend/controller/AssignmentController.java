@@ -64,7 +64,7 @@ public class AssignmentController {
             int correct_number_before =Integer.parseInt(multiple_result.getCorrect_number());
 
             studentAnswer = nodeChildService.getStudentAns(student_name, multiId);
-            if (studentAnswer == null) {
+            if (studentAnswer == null) { //该学生之前没有回答过这个问题
                 studentAnswer = new StudentAnswer();
                 studentAnswer.setStudentName(student_name);
                 studentAnswer.setAssignmentId(multiId);
@@ -75,12 +75,13 @@ public class AssignmentController {
                     multiple_result.setCorrect_number(correct_number_before+1+"");
                 }
             }
-            else {
-                if (!multiple_result.getCorrect_answer().equals(studentAnswer.getAnswer()) &&
-                        multiple_result.getCorrect_answer().equals(stu_ans.getAnswer()))
+            else { //回答过
+                //原先的回答错误，现在的回答正确
+                boolean isOldAnswerTrue = multiple_result.getCorrect_answer().equals(studentAnswer.getAnswer());
+                boolean isNewAnswerTrue = multiple_result.getCorrect_answer().equals(stu_ans.getAnswer());
+                if (!isOldAnswerTrue && isNewAnswerTrue) // 前错后对 +1
                     multiple_result.setCorrect_number(correct_number_before+1+"");
-                else if (multiple_result.getCorrect_answer().equals(studentAnswer.getAnswer()) &&
-                        !multiple_result.getCorrect_answer().equals(stu_ans.getAnswer()))
+                else if (isOldAnswerTrue && !isNewAnswerTrue) //前对后错 -1
                     multiple_result.setCorrect_number(correct_number_before-1+"");
                 studentAnswer.setAnswer(stu_ans.getAnswer());
                 nodeChildService.addStudentAnswer(studentAnswer);
