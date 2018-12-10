@@ -54,20 +54,17 @@ public class AssignmentController {
                 break;
             }
         }
-
         StudentAnswer studentAnswer;
-
         //比对答案
         if(multiple_result != null){ //找到题目
-
             int number_before = Integer.parseInt(multiple_result.getNumber());
             int correct_number_before =Integer.parseInt(multiple_result.getCorrect_number());
 
-            studentAnswer = nodeChildService.getStudentAns(student_name, multiId);
+            studentAnswer = nodeChildService.getStudentAns(student_name, multiId+multiple_result.getId());
             if (studentAnswer == null) { //该学生之前没有回答过这个问题
                 studentAnswer = new StudentAnswer();
                 studentAnswer.setStudentName(student_name);
-                studentAnswer.setAssignmentId(multiId);
+                studentAnswer.setAssignmentId(multiId+multiple_result.getId());
                 studentAnswer.setAnswer(stu_ans.getAnswer());
                 nodeChildService.addStudentAnswer(studentAnswer);
                 multiple_result.setNumber((number_before+1)+"");
@@ -89,6 +86,61 @@ public class AssignmentController {
 
             //保存multiple
             nodeChildService.saveMulti(multiple_result);
+            s.setSuccess(true);
+        }
+        return s;
+    }
+
+    @RequestMapping(value = "/answer_judgement/{course_id}/{mindmap_id}/{node_id}/{student_name}", method = RequestMethod.POST)
+    public Success answer_judgement(@PathVariable String course_id, @PathVariable String mindmap_id, @PathVariable String node_id,@PathVariable String student_name,
+                                   @RequestBody StudentAnswers stu_ans) {
+
+        Success s = new Success();
+        s.setSuccess(false);
+
+        //找到multiple
+        String judgeId = course_id + " " + mindmap_id + " " + node_id;
+        List<AssignmentJudgment> judgments = nodeChildService.findJudgements(judgeId);
+
+        AssignmentJudgment judgment_result=null;
+        for (AssignmentJudgment judgment :judgments) {
+            if (judgment.getTitle().equals(stu_ans.getTitle())){
+                judgment_result =judgment;
+                break;
+            }
+        }
+        StudentAnswer studentAnswer;
+        //比对答案
+        if(judgment_result != null){ //找到题目
+            int number_before = Integer.parseInt(judgment_result.getNumber());
+            int correct_number_before =Integer.parseInt(judgment_result.getCorrect_number());
+
+            studentAnswer = nodeChildService.getStudentAns(student_name, judgeId+judgment_result.getId());
+            if (studentAnswer == null) { //该学生之前没有回答过这个问题
+                studentAnswer = new StudentAnswer();
+                studentAnswer.setStudentName(student_name);
+                studentAnswer.setAssignmentId(judgeId+judgment_result.getId());
+                studentAnswer.setAnswer(stu_ans.getAnswer());
+                nodeChildService.addStudentAnswer(studentAnswer);
+                judgment_result.setNumber((number_before+1)+"");
+                if(judgment_result.getCorrect_answer().equals(stu_ans.getAnswer())){
+                    judgment_result.setCorrect_number(correct_number_before+1+"");
+                }
+            }
+            else { //回答过
+                //原先的回答错误，现在的回答正确
+                boolean isOldAnswerTrue = judgment_result.getCorrect_answer().equals(studentAnswer.getAnswer());
+                boolean isNewAnswerTrue = judgment_result.getCorrect_answer().equals(stu_ans.getAnswer());
+                if (!isOldAnswerTrue && isNewAnswerTrue) // 前错后对 +1
+                    judgment_result.setCorrect_number(correct_number_before+1+"");
+                else if (isOldAnswerTrue && !isNewAnswerTrue) //前对后错 -1
+                    judgment_result.setCorrect_number(correct_number_before-1+"");
+                studentAnswer.setAnswer(stu_ans.getAnswer());
+                nodeChildService.addStudentAnswer(studentAnswer);
+            }
+
+            //保存multiple
+            nodeChildService.saveJudge(judgment_result);
             s.setSuccess(true);
         }
         return s;
@@ -119,28 +171,25 @@ public class AssignmentController {
         return multiples_student;
     }
 
-    @RequestMapping(value = "/judgments_teacher/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
-    public List<AssignmentJudgment_json> judgments_teacher(@PathVariable String course_id, @PathVariable String mindmap_id,
-                                                           @PathVariable String node_id) {
+    @RequestMapping(value = "/judgments_student/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
+    public List<AssignmentJudgmentStudent> judgments_student(@PathVariable String course_id, @PathVariable String mindmap_id,
+                                                             @PathVariable String node_id) {
 
-        String judgeId =course_id + " " + mindmap_id + " " + node_id;
+        String judgeId = course_id + " " + mindmap_id + " " + node_id;
         List<AssignmentJudgment> judgments = nodeChildService.findJudgements(judgeId);
 
-        List<AssignmentJudgment_json> judgment_jsons = new LinkedList<>();
-        for (AssignmentJudgment judgment :judgments){
-            AssignmentJudgment_json judgment_json = new AssignmentJudgment_json();
+        List<AssignmentJudgmentStudent> judgments_student = new LinkedList<>();
+        for (AssignmentJudgment judgment : judgments) {
+            AssignmentJudgmentStudent judgment_student = new AssignmentJudgmentStudent();
 
-            judgment_json.setTitle(judgment.getTitle());
-            judgment_json.setT(judgment.getT());
-            judgment_json.setF(judgment.getF());
-            judgment_json.setCorrect_answer(judgment.getCorrect_answer());
-            judgment_json.setNumber(judgment.getNumber());
-            judgment_json.setCorrect_number(judgment.getCorrect_number());
-
-            judgment_jsons.add(judgment_json);
+            judgment_student.setTitle(judgment.getTitle());
+            judgment_student.setT(judgment.getT());
+            judgment_student.setF(judgment.getF());
+            judgment_student.setAnswer("");
+            judgments_student.add(judgment_student);
         }
 
-        return judgment_jsons;
+        return judgments_student;
     }
 
     @RequestMapping(value = "/multiples_teacher/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
@@ -168,7 +217,31 @@ public class AssignmentController {
 
         return multiple_jsons;
     }
-    
+
+    @RequestMapping(value = "/judgments_teacher/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
+    public List<AssignmentJudgment_json> judgments_teacher(@PathVariable String course_id, @PathVariable String mindmap_id,
+                                                           @PathVariable String node_id) {
+
+        String judgeId =course_id + " " + mindmap_id + " " + node_id;
+        List<AssignmentJudgment> judgments = nodeChildService.findJudgements(judgeId);
+
+        List<AssignmentJudgment_json> judgment_jsons = new LinkedList<>();
+        for (AssignmentJudgment judgment :judgments){
+            AssignmentJudgment_json judgment_json = new AssignmentJudgment_json();
+
+            judgment_json.setTitle(judgment.getTitle());
+            judgment_json.setT(judgment.getT());
+            judgment_json.setF(judgment.getF());
+            judgment_json.setCorrect_answer(judgment.getCorrect_answer());
+            judgment_json.setNumber(judgment.getNumber());
+            judgment_json.setCorrect_number(judgment.getCorrect_number());
+
+            judgment_jsons.add(judgment_json);
+        }
+
+        return judgment_jsons;
+    }
+
     @RequestMapping(value = "/release_multiple/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.POST)
     public Success release_multiple(@PathVariable String course_id, @PathVariable String mindmap_id,
                                     @PathVariable String node_id, @RequestBody AssignmentMultiple multiple) {
@@ -196,7 +269,7 @@ public class AssignmentController {
         return success;
     }
 
-    @RequestMapping(value = "/release_multiple/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/release_judgement/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.POST)
     public Success release_judgment(@PathVariable String course_id, @PathVariable String mindmap_id,
                                     @PathVariable String node_id, @RequestBody AssignmentJudgment judgment) {
         Success success = new Success();
@@ -205,7 +278,7 @@ public class AssignmentController {
         //找到node
         Node result_node = nodeService.findByNodeId(course_id + " " + mindmap_id, node_id);
 
-        //向node节点添加HAS_ASSIGNMENT_MULTI关系
+        //向node节点添加HAS_ASSIGNMENT_JUDGe关系
         if (result_node != null) {
 
             //向节点里增加multi_id number correct_number值
