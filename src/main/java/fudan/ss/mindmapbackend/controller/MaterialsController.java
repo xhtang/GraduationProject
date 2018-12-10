@@ -5,12 +5,16 @@ import fudan.ss.mindmapbackend.controller.json_model.Success;
 import fudan.ss.mindmapbackend.model.*;
 import fudan.ss.mindmapbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.HashMap;
 
 @RestController
 @CrossOrigin
@@ -19,6 +23,11 @@ public class MaterialsController {
     private NodeService nodeService;
     @Autowired
     private NodeChildService nodeChildService;
+    @Autowired
+    private FileService fileService;
+
+    @Value("${resourcesTitle}")
+    private String resourcesTitle;
 
     @RequestMapping(value = "/materials/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
     public String[] materials(@PathVariable String course_id, @PathVariable String mindmap_id,
@@ -44,10 +53,9 @@ public class MaterialsController {
                                    @PathVariable String node_id,
                                    @RequestParam(value = "material") MultipartFile file) {
 
-        final String filePath = "/home/ubuntu/MindMapFileStorage/" + course_id + "/" + mindmap_id + "/" + node_id + "/material/";
+        final String filePath =resourcesTitle + course_id + "/" + mindmap_id + "/" + node_id + "/material/";
         Success s = new Success();
         s.setSuccess(false);
-
         // 获取文件名
         String fileName = file.getOriginalFilename();
 
@@ -91,7 +99,7 @@ public class MaterialsController {
                                     @PathVariable String node_id, @RequestBody MaterialName material,
                                     HttpServletRequest request, HttpServletResponse response) {
 
-        final String filePath = "/home/ubuntu/MindMapFileStorage/" + course_id + "/" + mindmap_id + "/" + node_id + "/material/";
+        final String filePath = resourcesTitle + course_id + "/" + mindmap_id + "/" + node_id + "/material/";
 
         String material_name = material.getMaterial_name();
         String fileUrl = filePath + material_name;
@@ -133,6 +141,22 @@ public class MaterialsController {
             }
         }
         return null;
+    }
+
+    @RequestMapping(value = "/view_material/{course_id}/{mindmap_id}/{node_id}/{material}", method = RequestMethod.GET)
+    public ResponseEntity<?> view_courseware(@PathVariable String course_id, @PathVariable String mindmap_id,
+                                             @PathVariable String node_id, @PathVariable String material) {
+        final String filePath = resourcesTitle + course_id + "/" + mindmap_id + "/" + node_id + "/material/";
+        String fileUrl = filePath + material;
+
+        try {
+            byte[] file = fileService.getFile(fileUrl);
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin：http://localhost").contentType(MediaType.ALL).body(file);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(new HashMap<>().put("error", "Failed to load material"));
+        }
     }
 
     @RequestMapping(value = "/links/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)

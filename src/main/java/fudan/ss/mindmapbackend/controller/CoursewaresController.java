@@ -5,6 +5,7 @@ import fudan.ss.mindmapbackend.controller.json_model.Success;
 import fudan.ss.mindmapbackend.model.*;
 import fudan.ss.mindmapbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,9 @@ public class CoursewaresController {
     private NodeChildService nodeChildService;
     @Autowired
     private FileService fileService;
+
+    @Value("${resourcesTitle}")
+    private String resourcesTitle;
 
     @RequestMapping(value = "/coursewares/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
     public String[] coursewares(@PathVariable String course_id, @PathVariable String mindmap_id,
@@ -46,9 +50,8 @@ public class CoursewaresController {
     @RequestMapping(value = "/upload_courseware/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.POST)
     public Success upload_courseware(@PathVariable String course_id, @PathVariable String mindmap_id,
                                      @PathVariable String node_id, @RequestParam(value = "courseware") MultipartFile file) {
-
         //final String filePath = "/home/ubuntu/MindMapFileStorage/" + course_id + "/" + mindmap_id + "/" + node_id + "/courseware/";
-        final String filePath = "/home/ubuntu/MindMapFileStorage/" + course_id + "/" + mindmap_id + "/" + node_id + "/courseware/";
+        final String filePath = resourcesTitle + course_id + "/" + mindmap_id + "/" + node_id + "/courseware/";
         Success s = new Success();
         s.setSuccess(false);
 
@@ -95,7 +98,7 @@ public class CoursewaresController {
                                       @PathVariable String node_id, @RequestBody CoursewareName courseware,
                                       HttpServletRequest request, HttpServletResponse response) {
 
-        final String filePath = "/home/ubuntu/MindMapFileStorage/" + course_id + "/" + mindmap_id + "/" + node_id + "/courseware/";
+        final String filePath = resourcesTitle + course_id + "/" + mindmap_id + "/" + node_id + "/courseware/";
 
         String courseware_name = courseware.getCourseware_name();
         String fileUrl = filePath + courseware_name;
@@ -143,7 +146,7 @@ public class CoursewaresController {
     @RequestMapping(value = "/view_courseware/{course_id}/{mindmap_id}/{node_id}/{courseware}", method = RequestMethod.GET)
     public ResponseEntity<?> view_courseware(@PathVariable String course_id, @PathVariable String mindmap_id,
                                           @PathVariable String node_id, @PathVariable String courseware) {
-        final String filePath = "/home/ubuntu/MindMapFileStorage/" + course_id + "/" + mindmap_id + "/" + node_id + "/courseware/";
+        final String filePath = resourcesTitle + course_id + "/" + mindmap_id + "/" + node_id + "/courseware/";
         String fileUrl = filePath + courseware;
 
         try {
