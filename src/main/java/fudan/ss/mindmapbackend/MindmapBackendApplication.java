@@ -9,11 +9,9 @@ import javax.servlet.MultipartConfigElement;
 
 @SpringBootApplication
 public class MindmapBackendApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(MindmapBackendApplication.class, args);
     }
-
 
     @Bean
     public MultipartConfigElement multipartConfigElement() {

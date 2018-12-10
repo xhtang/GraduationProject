@@ -14,7 +14,7 @@ public class MainController {
     private UserService userService;
 
     @Autowired
-    private fudan.ss.mindmapbackend.service.mailService mailService;
+    private fudan.ss.mindmapbackend.service.MailService MailService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Success login(@RequestBody User user) {
@@ -78,7 +78,7 @@ public class MainController {
             builder.append("</body></html>");
             String htmlContent = builder.toString();
 
-            mailService.sendHtmlMail(email, subject, htmlContent);
+            MailService.sendHtmlMail(email, subject, htmlContent);
         }
 
         Success s = new Success();

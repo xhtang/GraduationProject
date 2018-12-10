@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 
 @Service
-public class mailService {
+public class MailService {
     @Autowired
     private JavaMailSender mailSender;
 
