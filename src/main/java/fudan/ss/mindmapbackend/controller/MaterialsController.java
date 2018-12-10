@@ -136,22 +136,15 @@ public class MaterialsController {
     }
 
     @RequestMapping(value = "/links/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
-    public String[] links(@PathVariable String course_id, @PathVariable String mindmap_id,
+    public Link[] links(@PathVariable String course_id, @PathVariable String mindmap_id,
                           @PathVariable String node_id) {
 
         //找到node
         Node result_node = nodeService.findByNodeId(course_id + " " + mindmap_id, node_id);
         if(result_node==null)
             return null;
-        Link[] links = nodeService.findLinks(result_node.getLong_id());
 
-        String[] ans = new String[links.length];
-
-        for (int i = 0; i < links.length; i++){
-            ans[i] = links[i].getLink_address();
-        }
-
-        return ans;
+        return nodeService.findLinks(result_node.getLong_id());
     }
 
     @RequestMapping(value = "/upload_link/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.POST)
