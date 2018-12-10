@@ -183,8 +183,6 @@ public class AssignmentController {
             AssignmentJudgmentStudent judgment_student = new AssignmentJudgmentStudent();
 
             judgment_student.setTitle(judgment.getTitle());
-            judgment_student.setT(judgment.getT());
-            judgment_student.setF(judgment.getF());
             judgment_student.setAnswer("");
             judgments_student.add(judgment_student);
         }
@@ -230,8 +228,6 @@ public class AssignmentController {
             AssignmentJudgment_json judgment_json = new AssignmentJudgment_json();
 
             judgment_json.setTitle(judgment.getTitle());
-            judgment_json.setT(judgment.getT());
-            judgment_json.setF(judgment.getF());
             judgment_json.setCorrect_answer(judgment.getCorrect_answer());
             judgment_json.setNumber(judgment.getNumber());
             judgment_json.setCorrect_number(judgment.getCorrect_number());
