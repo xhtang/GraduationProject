@@ -139,12 +139,11 @@ public class CoursewaresController {
     }
 
 
-    @RequestMapping(value = "/view_courseware/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/view_courseware/{course_id}/{mindmap_id}/{node_id}/{courseware}", method = RequestMethod.GET)
     public ResponseEntity<?> view_courseware(@PathVariable String course_id, @PathVariable String mindmap_id,
-                                          @PathVariable String node_id, @RequestBody CoursewareName courseware) {
+                                          @PathVariable String node_id, @PathVariable String courseware) {
         final String filePath = "/home/ubuntu/MindMapFileStorage/" + course_id + "/" + mindmap_id + "/" + node_id + "/courseware/";
-        String courseware_name = courseware.getCourseware_name();
-        String fileUrl = filePath + courseware_name;
+        String fileUrl = filePath + courseware;
 
         try {
             byte[] file = fileService.getFile(fileUrl);
