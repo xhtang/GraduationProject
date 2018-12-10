@@ -148,6 +148,8 @@ public class MindmapController {
                     AssignmentMultiple[] assignmentMultiples = nodeService.findAssignmentMultiple(id);
                     // Assignment-Short
                     AssignmentShort[] assignmentShorts = nodeService.findAssignmentShort(id);
+                    //Assignment-Judge
+                    AssignmentJudgment[] assignmentJudgments = nodeService.findAssignmentJudgements(id);
                     // delete the origin node
                     nodeService.delete(tempNode);
                     // save the new node
@@ -190,6 +192,14 @@ public class MindmapController {
                             Long shortId = as.getId();
                             nodeChildService.deleteAssignmentShortFather(shortId);
                             nodeChildService.createAssignmentShortFather(shortId, course_mindmap, nodeId);
+                        }
+                    }
+
+                    if (assignmentJudgments.length > 0) {
+                        for (AssignmentJudgment aj: assignmentJudgments) {
+                            Long ajId = aj.getId();
+                            nodeChildService.deleteAssignmentShortFather(ajId);
+                            nodeChildService.createAssignmentShortFather(ajId, course_mindmap, nodeId);
                         }
                     }
 

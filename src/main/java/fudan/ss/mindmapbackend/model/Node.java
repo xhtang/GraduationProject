@@ -33,6 +33,8 @@ public class Node {
     private Set<Link> links;
     @Relationship(type = "HAS_ASSIGNMENT_MULTI")
     private Set<AssignmentMultiple> assignmentMultiples;
+    @Relationship(type = "HAS_ASSIGNMENT_JUDGMENT")
+    private Set<AssignmentJudgment> assignmentJudgments;
     @Relationship(type = "HAS_ASSIGNMENT_SHORT")
     private Set<AssignmentShort> assignmentShorts;
 
@@ -110,6 +112,12 @@ public class Node {
         assignmentShorts.add(assignmentShort);
     }
 
+    public void setAssignmentJudgments(AssignmentJudgment judgment) {
+        if (assignmentJudgments == null)
+            assignmentJudgments = new HashSet<>();
+        assignmentJudgments.add(judgment);
+    }
+
     public Long getLong_id() {
         return long_id;
     }
@@ -182,4 +190,10 @@ public class Node {
     public void setCourse_mindmap(String course_mindmap) {
         this.course_mindmap = course_mindmap;
     }
+
+    public Set<AssignmentJudgment> getAssignmentJudgments() {
+        return assignmentJudgments;
+    }
+
+
 }

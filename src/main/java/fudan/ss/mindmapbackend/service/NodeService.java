@@ -30,6 +30,10 @@ public class NodeService {
         return nodeRepository.findAssignmentMultiple(id);
     }
 
+    public AssignmentJudgment[] findAssignmentJudgements(long id) {
+        return nodeRepository.findAssignmentJudgments(id);
+    }
+
     public AssignmentShort[] findAssignmentShort(long id) {
         return nodeRepository.findAssignmentShort(id);
     }

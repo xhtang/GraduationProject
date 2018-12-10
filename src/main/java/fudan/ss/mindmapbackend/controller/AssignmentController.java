@@ -119,6 +119,30 @@ public class AssignmentController {
         return multiples_student;
     }
 
+    @RequestMapping(value = "/judgments_teacher/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
+    public List<AssignmentJudgment_json> judgments_teacher(@PathVariable String course_id, @PathVariable String mindmap_id,
+                                                           @PathVariable String node_id) {
+
+        String judgeId =course_id + " " + mindmap_id + " " + node_id;
+        List<AssignmentJudgment> judgments = nodeChildService.findJudgements(judgeId);
+
+        List<AssignmentJudgment_json> judgment_jsons = new LinkedList<>();
+        for (AssignmentJudgment judgment :judgments){
+            AssignmentJudgment_json judgment_json = new AssignmentJudgment_json();
+
+            judgment_json.setTitle(judgment.getTitle());
+            judgment_json.setT(judgment.getT());
+            judgment_json.setF(judgment.getF());
+            judgment_json.setCorrect_answer(judgment.getCorrect_answer());
+            judgment_json.setNumber(judgment.getNumber());
+            judgment_json.setCorrect_number(judgment.getCorrect_number());
+
+            judgment_jsons.add(judgment_json);
+        }
+
+        return judgment_jsons;
+    }
+
     @RequestMapping(value = "/multiples_teacher/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
     public List<AssignmentMultiple_json> multiples_teacher(@PathVariable String course_id, @PathVariable String mindmap_id,
                                                            @PathVariable String node_id) {
@@ -144,11 +168,10 @@ public class AssignmentController {
 
         return multiple_jsons;
     }
-
+    
     @RequestMapping(value = "/release_multiple/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.POST)
     public Success release_multiple(@PathVariable String course_id, @PathVariable String mindmap_id,
                                     @PathVariable String node_id, @RequestBody AssignmentMultiple multiple) {
-
         Success success = new Success();
         success.setSuccess(false);
 
@@ -169,7 +192,33 @@ public class AssignmentController {
             result_node.setAssignmentMultiple(multiple);
             nodeService.save(result_node);
             success.setSuccess(true);
+        }
+        return success;
+    }
 
+    @RequestMapping(value = "/release_multiple/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.POST)
+    public Success release_judgment(@PathVariable String course_id, @PathVariable String mindmap_id,
+                                    @PathVariable String node_id, @RequestBody AssignmentJudgment judgment) {
+        Success success = new Success();
+        success.setSuccess(false);
+
+        //找到node
+        Node result_node = nodeService.findByNodeId(course_id + " " + mindmap_id, node_id);
+
+        //向node节点添加HAS_ASSIGNMENT_MULTI关系
+        if (result_node != null) {
+
+            //向节点里增加multi_id number correct_number值
+            judgment.setJudge_id(course_id + " " + mindmap_id + " " + node_id);
+            judgment.setNumber("0");
+            judgment.setCorrect_number("0");
+
+            //增加节点
+            nodeChildService.saveJudge(judgment);
+            //建立关系
+            result_node.setAssignmentJudgments(judgment);
+            nodeService.save(result_node);
+            success.setSuccess(true);
         }
         return success;
     }

@@ -145,13 +145,13 @@ public class MaterialsController {
 
     @RequestMapping(value = "/view_material/{course_id}/{mindmap_id}/{node_id}/{material}", method = RequestMethod.GET)
     public ResponseEntity<?> view_courseware(@PathVariable String course_id, @PathVariable String mindmap_id,
-                                             @PathVariable String node_id, @PathVariable String material) {
+                                             @PathVariable String node_id, @PathVariable String material, HttpServletResponse response) {
         final String filePath = resourcesTitle + course_id + "/" + mindmap_id + "/" + node_id + "/material/";
         String fileUrl = filePath + material;
 
         try {
             byte[] file = fileService.getFile(fileUrl);
-            return ResponseEntity.ok().header("Access-Control-Allow-Origin：http://localhost").contentType(MediaType.ALL).body(file);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(file);
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -21,6 +21,8 @@ public class NodeChildService {
     private AssignmentShortRepository assignmentShortRepository;
     @Autowired
     private StudentAnswerRepository studentAnswerRepository;
+    @Autowired
+    private AssignmentJudgmentRepository assignmentJudgmentRepository;
 
     public void deleteCoursewareFather(String coursewareName) {
         coursewareRepository.deleteFather(coursewareName);
@@ -50,8 +52,16 @@ public class NodeChildService {
         assignmentMultipleRepository.deleteFather(id);
     }
 
+    public void deleteAssignmentJudgeFather(long id) {
+        assignmentJudgmentRepository.deleteFather(id);
+    }
+
     public void createAssignmentMultiFather(long id, String course_mindmap, String nodeId) {
         assignmentMultipleRepository.createFather(id, course_mindmap, nodeId);
+    }
+
+    public void createAssignmentJudgeFather(long id, String course_mindmap, String nodeId) {
+        assignmentJudgmentRepository.createFather(id, course_mindmap, nodeId);
     }
 
     public void deleteAssignmentShortFather(long id) {
@@ -72,6 +82,14 @@ public class NodeChildService {
 
     public void saveMulti(AssignmentMultiple assignmentMultiple) {
         assignmentMultipleRepository.save(assignmentMultiple);
+    }
+
+    public List<AssignmentJudgment> findJudgements(String judgeId) {
+        return assignmentJudgmentRepository.findByJudge_id(judgeId);
+    }
+
+    public void saveJudge(AssignmentJudgment assignmentJudgment) {
+        assignmentJudgmentRepository.save(assignmentJudgment);
     }
 
     public StudentAnswer getStudentAns(String studentName, String assignmentId) {
