@@ -86,7 +86,7 @@ public class CoursewaresController {
             nodeChildService.saveCourseware(courseware);
 
             //建立关系
-            result_node.setCourseware(courseware);
+            result_node.addCourseware(courseware);
             nodeService.save(result_node);
             s.setSuccess(true);
         }

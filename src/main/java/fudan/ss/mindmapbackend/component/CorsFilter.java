@@ -13,7 +13,7 @@ import java.util.List;
 public class CorsFilter implements Filter {
 
     final static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CorsFilter.class);
-    private final List<String> allowedOrigins = Arrays.asList("http://localhost:4200");
+    private final List<String> allowedOrigins = Arrays.asList("http://localhost:4200", "http://52.82.20.159:8899", "http://www.blendedlearning.site:8899");
 
     public void doFilter2(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;

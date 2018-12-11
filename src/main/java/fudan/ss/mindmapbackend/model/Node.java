@@ -72,7 +72,7 @@ public class Node {
         return coursewares;
     }
 
-    public void setCourseware(Courseware courseware) {
+    public void addCourseware(Courseware courseware) {
         if (coursewares == null) {
             coursewares = new HashSet<>();
         }
