@@ -31,15 +31,64 @@ public class AssignmentController {
             short_json.setTitle(assignment_short.getTitle());
             short_json.setCorrect_answer(assignment_short.getCorrect_answer());
             short_jsons.add(short_json);
-
         }
         return short_jsons;
+    }
+
+    @RequestMapping(value = "/answer_short/{course_id}/{mindmap_id}/{node_id}/{student_name}", method = RequestMethod.POST)
+    public Success answer_short(@PathVariable String course_id, @PathVariable String mindmap_id, @PathVariable String node_id,@PathVariable String student_name,
+                                   @RequestBody StudentAnswers stu_ans) {
+        Success s = new Success();
+        s.setSuccess(false);
+
+        //找到short
+        String shortId = course_id + " " + mindmap_id + " " + node_id;
+        List<AssignmentShort> shorts = nodeChildService.findShorts(shortId);
+
+        AssignmentShort short_result=null;
+        for (AssignmentShort  assignmentShort: shorts) {
+            if (assignmentShort.getTitle().equals(stu_ans.getTitle())){
+                short_result =assignmentShort;
+                break;
+            }
+        }
+        StudentAnswer studentAnswer;
+        //比对答案
+        if(short_result != null){ //找到题目
+            studentAnswer = nodeChildService.getStudentAns(student_name, shortId+short_result.getId());
+            if (studentAnswer == null) { //该学生之前没有回答过这个问题,需要初始化
+                studentAnswer = new StudentAnswer();
+                studentAnswer.setStudentName(student_name);
+                studentAnswer.setAssignmentId(shortId+short_result.getId());
+            }
+            studentAnswer.setAnswer(stu_ans.getAnswer());
+            nodeChildService.addStudentAnswer(studentAnswer);
+            s.setSuccess(true);
+        }
+        return s;
+    }
+
+    @RequestMapping(value = "/student_answer_short/{course_id}/{mindmap_id}/{node_id}/{short_title}", method = RequestMethod.GET)
+    public List<StudentAnswer> student_answer_short(@PathVariable String course_id, @PathVariable String mindmap_id, @PathVariable String node_id,
+                                                    @PathVariable String short_title) {
+
+        //找到short
+        String shortId = course_id + " " + mindmap_id + " " + node_id;
+        List<AssignmentShort> shorts = nodeChildService.findShorts(shortId);
+
+        AssignmentShort short_result=null;
+        for (AssignmentShort  assignmentShort: shorts) {
+            if (assignmentShort.getTitle().equals(short_title)){
+                short_result =assignmentShort;
+                break;
+            }
+        }
+        return nodeChildService.getStudentAns(shortId+short_result.getId());
     }
 
     @RequestMapping(value = "/answer_multiple/{course_id}/{mindmap_id}/{node_id}/{student_name}", method = RequestMethod.POST)
     public Success answer_multiple(@PathVariable String course_id, @PathVariable String mindmap_id, @PathVariable String node_id,@PathVariable String student_name,
                                    @RequestBody StudentAnswers stu_ans) {
-
         Success s = new Success();
         s.setSuccess(false);
 
@@ -209,7 +258,7 @@ public class AssignmentController {
             multiple_json.setCorrect_answer(multiple.getCorrect_answer());
             multiple_json.setNumber(multiple.getNumber());
             multiple_json.setCorrect_number(multiple.getCorrect_number());
-
+            multiple_json.setValue(multiple.getValue());
             multiple_jsons.add(multiple_json);
         }
 
@@ -231,7 +280,7 @@ public class AssignmentController {
             judgment_json.setCorrect_answer(judgment.getCorrect_answer());
             judgment_json.setNumber(judgment.getNumber());
             judgment_json.setCorrect_number(judgment.getCorrect_number());
-
+            judgment_json.setValue(judgment.getValue());
             judgment_jsons.add(judgment_json);
         }
 

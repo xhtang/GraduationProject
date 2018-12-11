@@ -96,6 +96,10 @@ public class NodeChildService {
         return studentAnswerRepository.findByStudentNameAndAndAssignmentId(studentName, assignmentId);
     }
 
+    public List<StudentAnswer> getStudentAns(String assignmentId) {
+        return studentAnswerRepository.findByAssignmentId(assignmentId);
+    }
+
     public StudentAnswer addStudentAnswer(StudentAnswer studentAnswer) {
         return studentAnswerRepository.save(studentAnswer);
     }

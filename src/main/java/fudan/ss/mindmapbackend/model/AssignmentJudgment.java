@@ -12,6 +12,7 @@ public class AssignmentJudgment {
     private String correct_answer;
     private String number;
     private String correct_number;
+    private int value; // 1-10
 
     public Long getId() {
         return id;
@@ -59,5 +60,13 @@ public class AssignmentJudgment {
 
     public void setJudge_id(String judge_id) {
         this.judge_id = judge_id;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

@@ -6,6 +6,7 @@ public class AssignmentJudgment_json {
     private String correct_answer;
     private String number;
     private String correct_number;
+    private int value; //1-10
 
     public String getJudge_id() {
         return judge_id;
@@ -46,5 +47,13 @@ public class AssignmentJudgment_json {
 
     public void setCorrect_number(String correct_number) {
         this.correct_number = correct_number;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }
