@@ -4,9 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.MultipartConfigElement;
 
+@Configuration
 @SpringBootApplication
 public class MindmapBackendApplication {
     public static void main(String[] args) {
@@ -17,9 +19,9 @@ public class MindmapBackendApplication {
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         ///文件最大
-        factory.setMaxFileSize("35MB"); //KB,MB
+        factory.setMaxFileSize("2048MB"); //KB,MB
         /// 设置总上传数据总大小
-        factory.setMaxRequestSize("102400KB");
+        factory.setMaxRequestSize("2048MB");
         return factory.createMultipartConfig();
     }
 }
