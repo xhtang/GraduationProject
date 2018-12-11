@@ -156,7 +156,7 @@ public class NodesAccuracyController {
 
             nodeValue.setScore(tmpScore);
             nodeValue.setStudentScore(tmpStudentScore);
-            nodeValue.setValue((double)tmpStudentScore/tmpScore);
+            nodeValue.setValue(tmpScore == 0 ? 0.0 : (double)tmpStudentScore/tmpScore);
 
             //加入到nodesValueList中
             nodeValueList.add(nodeValue);
