@@ -30,6 +30,10 @@ public class AssignmentController {
             AssignmentShort_json short_json = new AssignmentShort_json();
             short_json.setTitle(assignment_short.getTitle());
             short_json.setCorrect_answer(assignment_short.getCorrect_answer());
+
+            List<StudentAnswer> studentAnswers = nodeChildService.getStudentAns(shortId+assignment_short.getId());
+            short_json.setStudentAnswers(studentAnswers);
+
             short_jsons.add(short_json);
         }
         return short_jsons;
