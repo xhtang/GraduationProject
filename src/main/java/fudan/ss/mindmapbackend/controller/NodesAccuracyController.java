@@ -60,7 +60,7 @@ public class NodesAccuracyController {
             nodesAccuracy.setNumber(number + "");
             nodesAccuracy.setCorrect_number(correctNumber + "");
 
-            String acc = "";
+            String acc = "0.00";
             DecimalFormat df =new DecimalFormat("#.00");
             if (number != 0)
                 acc = df.format(correctNumber/ number);
