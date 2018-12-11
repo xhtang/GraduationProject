@@ -6,6 +6,7 @@ import fudan.ss.mindmapbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -59,10 +60,11 @@ public class NodesAccuracyController {
             nodesAccuracy.setNumber(number + "");
             nodesAccuracy.setCorrect_number(correctNumber + "");
 
-            float acc = 0;
+            String acc = "";
+            DecimalFormat df =new DecimalFormat("#.00");
             if (number != 0)
-                acc = correctNumber/ number;
-            nodesAccuracy.setAccuracy(acc+"");
+                acc = df.format(correctNumber/ number);
+            nodesAccuracy.setAccuracy(acc);
             nodesAccuracyList.add(nodesAccuracy);
 
             for (Node child : nodeService.findChildren(thisNode.getLong_id())) {
