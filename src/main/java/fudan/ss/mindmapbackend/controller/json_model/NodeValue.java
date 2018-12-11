@@ -9,6 +9,7 @@ public class NodeValue {
     private String node_topic;
     private int score;
     private int studentScore;
+    private double value;
 
 
     public String getNode_id() {
@@ -41,5 +42,13 @@ public class NodeValue {
 
     public void setStudentScore(int studentScore) {
         this.studentScore = studentScore;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 }
