@@ -19,8 +19,17 @@ public class NodesAccuracyController {
     @Autowired
     private NodeService nodeService;
 
-    @RequestMapping(value = "/nodes_accuracy/{mindmap_id}", method = RequestMethod.GET)
-    public List<NodesAccuracy> nodesAccuracy(@PathVariable String mindmap_id) {
+    @RequestMapping(value = "/nodes_accuracy_mul/{mindmap_id}", method = RequestMethod.GET)
+    public List<NodesAccuracy> nodesAccuracyOfMul(@PathVariable String mindmap_id) {
+        return getAccuracy(mindmap_id, "Multiple");
+    }
+
+    @RequestMapping(value = "/nodes_accuracy_jud/{mindmap_id}", method = RequestMethod.GET)
+    public List<NodesAccuracy> nodesAccuracyOfJud(@PathVariable String mindmap_id) {
+        return getAccuracy(mindmap_id, "Judgment");
+    }
+
+    private List<NodesAccuracy> getAccuracy(String mindmap_id, String type) {
         List<NodesAccuracy> nodesAccuracyList = new LinkedList<>();
 
         //获得mindmap
@@ -47,11 +56,21 @@ public class NodesAccuracyController {
             int number = 0;
             int correctNumber = 0;
 
-            AssignmentMultiple[] multiples = nodeService.findAssignmentMultiple(thisNode.getLong_id());
-            for (AssignmentMultiple mul : multiples) {
-                number += Integer.parseInt(mul.getNumber());
-                correctNumber += Integer.parseInt(mul.getCorrect_number());
+            if (type.equals("Multiple")) {
+                AssignmentMultiple[] multiples = nodeService.findAssignmentMultiple(thisNode.getLong_id());
+                for (AssignmentMultiple mul : multiples) {
+                    number += Integer.parseInt(mul.getNumber());
+                    correctNumber += Integer.parseInt(mul.getCorrect_number());
+                }
             }
+            else if (type.equals("Judgment")) {
+                AssignmentJudgment[] judgments = nodeService.findAssignmentJudgements(thisNode.getLong_id());
+                for (AssignmentJudgment judgment: judgments) {
+                    number += Integer.parseInt(judgment.getNumber());
+                    correctNumber += Integer.parseInt(judgment.getCorrect_number());
+                }
+            }
+
 
             //加入到nodesAccuracyList中
             NodesAccuracy nodesAccuracy = new NodesAccuracy();
@@ -76,5 +95,4 @@ public class NodesAccuracyController {
 
         return nodesAccuracyList;
     }
-
 }
