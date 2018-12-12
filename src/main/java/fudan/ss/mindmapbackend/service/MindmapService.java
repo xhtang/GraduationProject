@@ -74,10 +74,13 @@ public class MindmapService {
             nodeCount.setHomeworkNum(multiples.length + judgments.length + shorts.length);
 
             // resourceNum
-            nodeCount.setResourceNum(thisNode.getLinks().size() + thisNode.getMaterials().size());
+            Link[] links = nodeRepository.findLinks(thisNode.getLong_id());
+            Material[] materials = nodeRepository.findMaterials(thisNode.getLong_id());
+            nodeCount.setResourceNum(links.length + materials.length);
 
             // coursewareNum
-            nodeCount.setCoursewareNum(thisNode.getCoursewares().size());
+            Courseware[] coursewares = nodeRepository.findCoursewares(thisNode.getLong_id());
+            nodeCount.setCoursewareNum(coursewares.length);
 
             //加入到nodesCountList中
             nodeCountList.add(nodeCount);
