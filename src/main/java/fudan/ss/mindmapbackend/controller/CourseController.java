@@ -97,6 +97,13 @@ public class CourseController {
         return s;
     }
 
+    @RequestMapping(value = "/delete_course_student/{user_name}/{course_id}", method = RequestMethod.DELETE)
+    public Success delete_course_student(@PathVariable String user_name, @PathVariable String course_id) {
+        Success s = new Success();
+        s.setSuccess(courseService.deleteCourse(user_name, course_id));
+        return s;
+    }
+
     @RequestMapping(value = "/search_course", method = RequestMethod.GET)
     public Course_json[] search_course() {
         Course[] courses= courseService.findCourses();

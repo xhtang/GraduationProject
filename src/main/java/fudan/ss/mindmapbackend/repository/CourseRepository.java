@@ -21,4 +21,12 @@ public interface CourseRepository extends Neo4jRepository<Course, Long>{
 //            "MATCH (m:Mindmap) WHERE m.mindmap_id = ({mindmap_id})" +
 //            "CREATE (n)-[:OWN]->(m)")
 //    void saveOwn(@Param("course_id") String course_id, @Param("mindmap_id") String mindmap_id);
+
+    @Query("match (s:Student) - [rs:STUDY_IN] - (c:Course) where id(c)={0} delete rs")
+    void quitCourse(long id);
+
+    @Query("match (t:Teacher) - [rs:TEACH_IN] - (c:Course) - [r1:OWN]" +
+            " - (m:Mindmap) -[r2:HAS_ROOT] - (ro:Node) -[*] - (n) " +
+            "where id(c)={0} detach delete c,m,ro,n")
+    void deleteCourse(long id);
 }
