@@ -7,6 +7,8 @@ import fudan.ss.mindmapbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 public class MindmapController {
@@ -124,6 +126,12 @@ public class MindmapController {
         success.setSuccess(true);
         return success;
     }
+
+    @RequestMapping(value = "/mindmap_node_count/{mindmap_id}", method = RequestMethod.GET)
+    public List<NodeCount> getNodeCounts(@PathVariable String mindmap_id) {
+        return mindmapService.getNodeCount(mindmap_id);
+    }
+
 
     //recursion 递归
     private Node recurseForNode(Node node_root) {
