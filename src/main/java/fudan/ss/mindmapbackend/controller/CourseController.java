@@ -98,7 +98,7 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/delete_course_student/{user_name}/{course_id}", method = RequestMethod.DELETE)
-    public Success delete_course_student(@PathVariable String user_name, @PathVariable String course_id) {
+    public Success delete_course_teacher(@PathVariable String user_name, @PathVariable String course_id) {
         Success s = new Success();
         s.setSuccess(courseService.deleteCourse(user_name, course_id));
         return s;
