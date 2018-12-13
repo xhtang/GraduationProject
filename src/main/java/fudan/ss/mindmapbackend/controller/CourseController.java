@@ -97,10 +97,10 @@ public class CourseController {
         return s;
     }
 
-    @RequestMapping(value = "/delete_course_teacher/{user_name}/{course_id}", method = RequestMethod.DELETE)
-    public Success delete_course_teacher(@PathVariable String user_name, @PathVariable String course_id) {
+    @RequestMapping(value = "/delete_course_teacher/{user_name}/{course_id}/{course_name}", method = RequestMethod.DELETE)
+    public Success delete_course_teacher(@PathVariable String user_name, @PathVariable String course_id, @PathVariable String course_name) {
         Success s = new Success();
-        s.setSuccess(courseService.deleteCourse(user_name, course_id));
+        s.setSuccess(courseService.deleteCourse(user_name, course_id, course_name));
         return s;
     }
 

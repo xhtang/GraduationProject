@@ -21,7 +21,7 @@ public class CourseService {
     @Autowired
     private TeacherRepository teacherRepository;
 
-    public boolean deleteCourse(String user_name, String course_id) {
+    public boolean deleteCourse(String user_name, String course_id, String course_name) {
         // 首先检查该用户有无权限
         Teacher teacher = teacherRepository.findByName(user_name);
         Course[] courses = teacherRepository.findCourses(teacher.getId());
@@ -36,6 +36,10 @@ public class CourseService {
             return false;
 
         Course target = courseRepository.findByCourseId(course_id);
+
+        if (!target.getCourse_name().equals(course_name))
+            return false;
+
         courseRepository.quitCourse(target.getId());
         courseRepository.deleteCourse(target.getId());
 
