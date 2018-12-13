@@ -41,7 +41,12 @@ public class CourseService {
             return false;
 
         courseRepository.quitCourse(target.getId());
-        courseRepository.deleteCourse(target.getId());
+
+        Mindmap[] mindmaps = courseRepository.findMindmaps(target.getId());
+        if (mindmaps.length > 0)
+            courseRepository.deleteCourse(target.getId());
+        else
+            courseRepository.delete(target);
 
         return true;
     }
