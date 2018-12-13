@@ -24,7 +24,7 @@ public class CourseService {
     public boolean deleteCourse(String user_name, String course_id) {
         // 首先检查该用户有无权限
         Teacher teacher = teacherRepository.findByName(user_name);
-        Set<Course> courses = teacher.getCourses();
+        Course[] courses = teacherRepository.findCourses(teacher.getId());
         boolean flag = false;
         for (Course course: courses) {
             if (course.getCourse_id().equals(course_id)) {
