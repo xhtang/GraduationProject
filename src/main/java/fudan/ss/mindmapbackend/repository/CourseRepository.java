@@ -25,8 +25,6 @@ public interface CourseRepository extends Neo4jRepository<Course, Long>{
     @Query("match (s:Student) - [rs:STUDY_IN] - (c:Course) where id(c)={0} delete rs")
     void quitCourse(long id);
 
-    @Query("match (t:Teacher) - [rs:TEACH_IN] - (c:Course) - [r1:OWN]" +
-            " - (m:Mindmap) -[r2:HAS_ROOT] - (ro:Node) -[*] - (n) " +
-            "where id(c)={0} detach delete c,m,ro,n")
+    @Query("match (t:Teacher) - [rs:TEACH_IN] - (c:Course) - [*] -(n) where id(c) = {0} detach delete c,n")
     void deleteCourse(long id);
 }
