@@ -53,6 +53,9 @@ public class MindmapController {
         //先找到course
         Course course = courseService.findByCourseId(course_id);
 
+        if (course == null)
+            return null;
+
         //找OWN关系
         Mindmap[] mindmaps = courseService.findMindmaps(course.getId());
 
