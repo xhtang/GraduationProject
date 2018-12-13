@@ -151,7 +151,7 @@ public class CoursewaresController {
 
         try {
             byte[] file = fileService.getFile(fileUrl);
-            return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(file);
+            return ResponseEntity.ok().body(file);
         }
         catch (Exception e) {
             e.printStackTrace();
