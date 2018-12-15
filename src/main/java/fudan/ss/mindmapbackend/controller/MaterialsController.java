@@ -189,9 +189,9 @@ public class MaterialsController {
         return s;
     }
 
-    @RequestMapping(value = "/delete_link/{link_name}/{node_id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete_link(@PathVariable String link_name, @PathVariable String nodeId) {
-        nodeChildService.deleteLink(link_name, nodeId);
+    @RequestMapping(value = "/delete_link/{link_name}/{node}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> delete_link(@PathVariable String link_name, @PathVariable String node) {
+        nodeChildService.deleteLink(link_name, node);
         Success success = new Success();
         success.setSuccess(true);
         return ResponseEntity.ok().body(success);
