@@ -146,12 +146,12 @@ public class NodeChildService {
         coursewareRepository.delete(courseware);
     }
 
-    private Link getLink(String link_address, String link_name, String nodeId) {
-        return linkRepository.findByNode(link_address, link_name, nodeId);
+    private Link getLink(String link_name, String nodeId) {
+        return linkRepository.findByNode(link_name, nodeId);
     }
 
-    public void deleteLink(String link_address, String link_name, String nodeId) {
-        Link link = getLink(link_address, link_name, nodeId);
+    public void deleteLink(String link_name, String nodeId) {
+        Link link = getLink(link_name, nodeId);
         linkRepository.delete(link);
     }
 }
