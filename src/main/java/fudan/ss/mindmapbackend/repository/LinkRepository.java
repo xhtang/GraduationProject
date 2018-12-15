@@ -20,6 +20,6 @@ public interface LinkRepository extends Neo4jRepository<Link, Long> {
             "CREATE (m)-[:HAS_LINK]->(n)")
     void createFather(@Param("link_address") String link_address, @Param("course_mindmap") String course_mindmap, @Param("node_id") String node_id);
 
-    @Query("match (l:Link) where l.link_name = {0} and l.nodeId = {1} return l")
-    Link findByNode(String link_name, String nodeId);
+    @Query("match (l:Link) where l.link_name = {0} and l.node = {1} return l")
+    Link findByNode(String link_name, String node);
 }

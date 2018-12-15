@@ -6,7 +6,6 @@ import fudan.ss.mindmapbackend.model.*;
 import fudan.ss.mindmapbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.HashMap;
 
 @RestController
 @CrossOrigin
@@ -178,7 +176,7 @@ public class MaterialsController {
         Node result_node = nodeService.findByNodeId(course_id + " " + mindmap_id, node_id);
 
         if (result_node != null) {
-            link.setNodeId(result_node.getId());
+            link.setNode(result_node.getLong_id() + "");
 
             //新建Courseware
             nodeChildService.saveLink(link);
