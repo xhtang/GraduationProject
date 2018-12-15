@@ -9,6 +9,7 @@ public class Link {
     private Long id;
     private String link_address;
     private String link_name;
+    private String nodeId;
 
     public Long getId() {
         return id;
@@ -32,5 +33,13 @@ public class Link {
 
     public void setLink_name(String link_name) {
         this.link_name = link_name;
+    }
+
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
     }
 }

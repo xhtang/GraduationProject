@@ -20,4 +20,6 @@ public interface MaterialRepository extends Neo4jRepository<Material, Long> {
             "MATCH (m:Node) WHERE m.course_mindmap = ({course_mindmap}) and m.node_id=({node_id}) " +
             "CREATE (m)-[:HAS_MATERIAL]->(n)")
     void createFather(@Param("material_name") String material_name, @Param("course_mindmap") String course_mindmap, @Param("node_id") String node_id);
+
+    Material findByMaterialNameAndStoreAddress(String materialName, String StoreAddress);
 }

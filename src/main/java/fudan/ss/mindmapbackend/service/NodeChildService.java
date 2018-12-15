@@ -112,8 +112,8 @@ public class NodeChildService {
         coursewareRepository.save(courseware);
     }
 
-    public void saveMaterial(Material material) {
-        materialRepository.save(material);
+    public Material saveMaterial(Material material) {
+       return materialRepository.save(material);
     }
 
     public void saveLink(Link link) {
@@ -126,5 +126,32 @@ public class NodeChildService {
 
     public Material findMaterial(String storeAddress) {
         return materialRepository.findByStoreAddress(storeAddress);
+    }
+
+    private Material getMaterial(String materialName, String storeAddress) {
+        return materialRepository.findByMaterialNameAndStoreAddress(materialName, storeAddress);
+    }
+
+    public void deleteMaterial(String materialName, String storeAddress) {
+        Material material = getMaterial(materialName, storeAddress);
+        materialRepository.delete(material);
+    }
+
+    private Courseware getCourseware(String courseware_name, String store_address) {
+        return coursewareRepository.findByCourseware_nameAndStore_address(courseware_name, store_address);
+    }
+
+    public void deleteCourseware(String courseware_name, String store_address) {
+        Courseware courseware = getCourseware(courseware_name, store_address);
+        coursewareRepository.delete(courseware);
+    }
+
+    private Link getLink(String link_address, String link_name, String nodeId) {
+        return linkRepository.findByNode(link_address, link_name, nodeId);
+    }
+
+    public void deleteLink(String link_address, String link_name, String nodeId) {
+        Link link = getLink(link_address, link_name, nodeId);
+        linkRepository.delete(link);
     }
 }

@@ -80,11 +80,11 @@ public class MaterialsController {
                 e.printStackTrace();
             }
 
-            //新建Courseware
+            //新建
             Material ma = new Material();
             ma.setMaterialName(fileName);
             ma.setStoreAddress(filePath + fileName);
-            nodeChildService.saveMaterial(ma);
+            ma = nodeChildService.saveMaterial(ma);
 
             //建立关系
             result_node.setMaterial(ma);
@@ -143,20 +143,16 @@ public class MaterialsController {
         return null;
     }
 
-    @RequestMapping(value = "/view_material/{course_id}/{mindmap_id}/{node_id}/{material}", method = RequestMethod.GET)
-    public ResponseEntity<?> view_courseware(@PathVariable String course_id, @PathVariable String mindmap_id,
+    @RequestMapping(value = "/delete_material/{course_id}/{mindmap_id}/{node_id}/{material}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> delete_material(@PathVariable String course_id, @PathVariable String mindmap_id,
                                              @PathVariable String node_id, @PathVariable String material, HttpServletResponse response) {
         final String filePath = resourcesTitle + course_id + "/" + mindmap_id + "/" + node_id + "/material/";
         String fileUrl = filePath + material;
 
-        try {
-            byte[] file = fileService.getFile(fileUrl);
-            return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(file);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(404).body(new HashMap<>().put("error", "Failed to load material"));
-        }
+        nodeChildService.deleteMaterial(material, fileUrl);
+        Success success = new Success();
+        success.setSuccess(true);
+        return ResponseEntity.ok().body(success);
     }
 
     @RequestMapping(value = "/links/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
@@ -182,6 +178,7 @@ public class MaterialsController {
         Node result_node = nodeService.findByNodeId(course_id + " " + mindmap_id, node_id);
 
         if (result_node != null) {
+            link.setNodeId(result_node.getId());
 
             //新建Courseware
             nodeChildService.saveLink(link);
@@ -194,6 +191,14 @@ public class MaterialsController {
         return s;
     }
 
+    @RequestMapping(value = "/delete_link/{link_address}/{link_name}/{node_id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> delete_link(@PathVariable String link_address, @PathVariable String link_name,
+                                             @PathVariable String nodeId) {
+        nodeChildService.deleteLink(link_address, link_name, nodeId);
+        Success success = new Success();
+        success.setSuccess(true);
+        return ResponseEntity.ok().body(success);
+    }
 }
 
 

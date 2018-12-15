@@ -19,4 +19,7 @@ public interface CoursewareRepository extends Neo4jRepository<Courseware, Long> 
             "MATCH (m:Node) WHERE m.course_mindmap = ({course_mindmap}) and m.node_id=({node_id}) " +
             "CREATE (m)-[:HAS_COURSEWARE]->(n)")
     void createFather(@Param("courseware_name") String courseware_name, @Param("course_mindmap") String course_mindmap, @Param("node_id") String node_id);
+
+    @Query("match (c:Courseware) where c.courseware_name = {0} and c.store_address = {1} return c")
+    Courseware findByCourseware_nameAndStore_address(String courseware_name, String store_address);
 }

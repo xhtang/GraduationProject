@@ -35,12 +35,16 @@ public class CourseService {
         if (!flag) //flag 是false表示这个用户没有开这门课
             return false;
 
+
+
         Course target = courseRepository.findByCourseId(course_id);
 
         if (!target.getCourse_name().equals(course_name))
             return false;
 
         courseRepository.quitCourse(target.getId());
+
+        deleteStudentAnsByCourseId(course_id);
 
         Mindmap[] mindmaps = courseRepository.findMindmaps(target.getId());
         if (mindmaps.length > 0)

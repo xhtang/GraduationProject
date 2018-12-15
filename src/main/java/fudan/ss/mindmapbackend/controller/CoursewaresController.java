@@ -142,6 +142,17 @@ public class CoursewaresController {
         return null;
     }
 
+    @RequestMapping(value = "/delete_courseware/{course_id}/{mindmap_id}/{node_id}/{courseware}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> delete_courseware(@PathVariable String course_id, @PathVariable String mindmap_id,
+                                               @PathVariable String node_id, @PathVariable String courseware, HttpServletResponse response) {
+        final String filePath = resourcesTitle + course_id + "/" + mindmap_id + "/" + node_id + "/courseware/";
+        String fileUrl = filePath + courseware;
+
+        nodeChildService.deleteCourseware(courseware, fileUrl);
+        Success success = new Success();
+        success.setSuccess(true);
+        return ResponseEntity.ok().body(success);
+    }
 
     @RequestMapping(value = "/view_courseware/{course_id}/{mindmap_id}/{node_id}/{courseware}", method = RequestMethod.GET)
     public ResponseEntity<?> view_courseware(@PathVariable String course_id, @PathVariable String mindmap_id,
