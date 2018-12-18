@@ -5,7 +5,10 @@ import fudan.ss.mindmapbackend.controller.json_model.User;
 import fudan.ss.mindmapbackend.model.*;
 import fudan.ss.mindmapbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 @RestController
 @CrossOrigin
@@ -49,84 +52,37 @@ public class MainController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Success register(@RequestBody UserTemp user) {
         String name = user.getUser_name();
-        String password = user.getUser_pwd();
-        String email = user.getEmail();
         String identity = user.getIdentity();
+        String password = user.getUser_pwd();
+
+        Success success = new Success();
+        success.setSuccess(false);
 
         //首先判断user_name是否已经存在
-        boolean if_exist = (userService.findUser(name) || userService.findTemp(name));
+        boolean if_exist = (userService.findUser(name));
         if (!if_exist) {
-            Long curTime = System.currentTimeMillis();
-            int hash = curTime.hashCode() % 10000000 + 10000000;
-            String code = hash + "";
+            if (identity.equalsIgnoreCase("teacher")) {
+                Teacher teacher = new Teacher();
+                teacher.setName(name);
+                teacher.setPassword(password);
+                teacher = userService.saveTeacher(teacher);
+                System.out.println("      老师id:    "+ teacher.getId() + "!!!!!!!!!!!");
+                success.setSuccess(true);
 
-            user.setCode(code);
-            userService.saveUserTemp(user);
-
-            // 标题
-            String subject = "登录验证码";
-            // 正文
-            StringBuilder builder = new StringBuilder();
-            builder.append("<html><head>");
-            builder.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
-            builder.append("</head><body>");
-            builder.append("您好：<br/>");
-            builder.append("您在课程网站上进行了注册，账户信息如下：<br/>");
-            builder.append("用户账号：" + name + "<br/>用户密码：" + password + "<br/>");
-            builder.append("用户权限：" + identity + "<br/><br/>");
-            builder.append("您的邮箱验证码为：" + code);
-            builder.append("</body></html>");
-            String htmlContent = builder.toString();
-
-            MailService.sendHtmlMail(email, subject, htmlContent);
-        }
-
-        Success s = new Success();
-        s.setSuccess(!if_exist);
-        return s;
-    }
-
-    @RequestMapping(value = "/transfer", method = RequestMethod.POST)
-    public Success transfer(@RequestBody UserTemp user) {
-        //long id = user.getId();
-        String name = user.getUser_name();
-        String password = user.getUser_pwd();
-        String email = user.getEmail();
-        String identity = user.getIdentity();
-        String code = user.getCode();
-
-        Success s = new Success();
-        s.setSuccess(false);
-
-        UserTemp temp = userService.findUserByName(name);
-        if (temp == null) {
-            return s;
-        } else {
-            if (!(temp.getUser_name().equals(name) && temp.getUser_pwd().equals(password) && temp.getEmail().equals(email) && temp.getIdentity().equals(identity) && temp.getCode().equals(code)))
-                return s;
-            else {
-                userService.deleteUser(temp);
-                if (identity.equalsIgnoreCase("teacher")) {
-                    Teacher teacher = new Teacher();
-                    teacher.setName(name);
-                    teacher.setPassword(password);
-                    teacher = userService.saveTeacher(teacher);
-                    System.out.println("      用户id:    "+ teacher.getId() + "!!!!!!!!!!!");
-                } else if (identity.equalsIgnoreCase("student")) {
-                    Student student = new Student();
-                    //student.setId(id);
-                    student.setName(name);
-                    student.setPassword(password);
-                    student = userService.saveStudent(student);
-                    System.out.println("      用户id:    "+ student.getId() + "!!!!!!!!!!!");
-                } else {
-                    return s;
-                }
-                s.setSuccess(true);
+            } else {
+                Student student = new Student();
+                //student.setId(id);
+                student.setName(name);
+                student.setPassword(password);
+                student = userService.saveStudent(student);
+                System.out.println("      学生id:    "+ student.getId() + "!!!!!!!!!!!");
+                success.setSuccess(true);
             }
+            return success;
         }
-
-        return s;
+        else {
+            return success;
+        }
     }
 
     @RequestMapping(value = "/modify_password", method = RequestMethod.POST)
