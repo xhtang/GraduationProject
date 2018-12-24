@@ -5,6 +5,7 @@ import fudan.ss.mindmapbackend.model.StudentAnswer;
 import java.util.List;
 
 public class AssignmentShort_json {
+    private Long assignmentLongId;
     private String title;
     private String correct_answer;
     private List<StudentAnswer> studentAnswers;
@@ -31,5 +32,13 @@ public class AssignmentShort_json {
 
     public void setStudentAnswers(List<StudentAnswer> studentAnswers) {
         this.studentAnswers = studentAnswers;
+    }
+
+    public Long getAssignmentLongId() {
+        return assignmentLongId;
+    }
+
+    public void setAssignmentLongId(Long assignmentLongId) {
+        this.assignmentLongId = assignmentLongId;
     }
 }

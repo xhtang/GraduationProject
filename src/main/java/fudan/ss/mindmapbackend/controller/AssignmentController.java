@@ -29,6 +29,7 @@ public class AssignmentController {
 
         for (AssignmentShort assignment_short :shorts){
             AssignmentShort_json short_json = new AssignmentShort_json();
+            short_json.setAssignmentLongId(assignment_short.getId());
             short_json.setTitle(assignment_short.getTitle());
             short_json.setCorrect_answer(assignment_short.getCorrect_answer());
 
