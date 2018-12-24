@@ -27,4 +27,6 @@ public interface CourseRepository extends Neo4jRepository<Course, Long>{
 
     @Query("match (t:Teacher) - [rs:TEACH_IN] - (c:Course) - [*] -(n) where id(c) = {0} detach delete c,n")
     void deleteCourse(long id);
+
+    Course findBySelectCode(String selectCode);
 }

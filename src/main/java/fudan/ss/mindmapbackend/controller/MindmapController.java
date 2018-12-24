@@ -135,6 +135,21 @@ public class MindmapController {
         return mindmapService.getNodeCount(mindmap_id);
     }
 
+    @RequestMapping(value = "/mindmap_delete/{mindmap_id}", method = RequestMethod.DELETE)
+    public Success deleteMindmap(@PathVariable String mindmap_id) {
+        Success success = new Success();
+        boolean flag = mindmapService.deleteMindmapById(mindmap_id);
+        success.setSuccess(flag);
+        return success;
+    }
+
+    @RequestMapping(value = "/mindmap_resetName/{mindmap_id}/{newName}", method = RequestMethod.DELETE)
+    public Success resetName(@PathVariable String mindmap_id, @PathVariable String newName) {
+        Success success = new Success();
+        boolean flag = mindmapService.resetName(mindmap_id, newName);
+        success.setSuccess(flag);
+        return success;
+    }
 
     //recursion 递归
     private Node recurseForNode(Node node_root) {

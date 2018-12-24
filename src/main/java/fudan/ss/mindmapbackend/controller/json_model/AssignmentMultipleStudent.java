@@ -1,6 +1,7 @@
 package fudan.ss.mindmapbackend.controller.json_model;
 
 public class AssignmentMultipleStudent {
+    private Long assignmentLongId;
     private String title;
     private String optionA;
     private String optionB;
@@ -54,5 +55,14 @@ public class AssignmentMultipleStudent {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+
+    public Long getAssignmentLongId() {
+        return assignmentLongId;
+    }
+
+    public void setAssignmentLongId(Long assignmentLongId) {
+        this.assignmentLongId = assignmentLongId;
     }
 }

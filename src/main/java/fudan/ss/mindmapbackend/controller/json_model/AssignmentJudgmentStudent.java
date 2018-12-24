@@ -5,6 +5,7 @@ package fudan.ss.mindmapbackend.controller.json_model;
  * Date: 2018/12/10.
  */
 public class AssignmentJudgmentStudent {
+    private Long assignmentLongId;
     private String title;
     private String answer;
 
@@ -22,5 +23,13 @@ public class AssignmentJudgmentStudent {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public Long getAssignmentLongId() {
+        return assignmentLongId;
+    }
+
+    public void setAssignmentLongId(Long assignmentLongId) {
+        this.assignmentLongId = assignmentLongId;
     }
 }

@@ -1,10 +1,12 @@
 package fudan.ss.mindmapbackend.service;
 
+import fudan.ss.mindmapbackend.controller.json_model.AssignmentRealAnswer;
 import fudan.ss.mindmapbackend.model.*;
 import fudan.ss.mindmapbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -153,5 +155,68 @@ public class NodeChildService {
     public void deleteLink(String link_name, String nodeId) {
         Link link = getLink(link_name, nodeId);
         linkRepository.delete(link);
+    }
+
+    public List<StudentAnswer> getStudentAnswersForANode(String course_id, String mindmap_id, String node_id, String username) {
+        List<StudentAnswer> results = new ArrayList<>();
+
+        String assignmentId =course_id + " " + mindmap_id + " " + node_id;
+        List<AssignmentMultiple> multiples = findMultis(assignmentId);
+        List<AssignmentJudgment> judgments = findJudgements(assignmentId);
+        List<AssignmentShort> shorts = findShorts(assignmentId);
+
+        for (AssignmentMultiple multiple: multiples) {
+            StudentAnswer studentAnswer = studentAnswerRepository.findByStudentNameAndAndAssignmentId(username, assignmentId+multiple.getId());
+            if (studentAnswer != null)
+                results.add(studentAnswer);
+        }
+
+        for (AssignmentJudgment judgment: judgments) {
+            StudentAnswer studentAnswer = studentAnswerRepository.findByStudentNameAndAndAssignmentId(username, assignmentId+judgment.getId());
+            if (studentAnswer != null)
+                results.add(studentAnswer);
+        }
+
+        for (AssignmentShort aShort: shorts) {
+            StudentAnswer studentAnswer = studentAnswerRepository.findByStudentNameAndAndAssignmentId(username, assignmentId+aShort.getId());
+            if (studentAnswer != null)
+                results.add(studentAnswer);
+        }
+
+        return results;
+    }
+
+    public AssignmentRealAnswer getRealAnswer(Long id, int type, String username) {
+        String assignmentId = "";
+        String answer = "";
+        switch (type) {
+            case 1:
+                AssignmentMultiple multiple = assignmentMultipleRepository.getAssignmentMultipleById(id);
+                answer = multiple.getCorrect_answer();
+                assignmentId = multiple.getMulti_id();
+                break;
+            case 2:
+                AssignmentShort aShort = assignmentShortRepository.getAssignmentShortById(id);
+                answer = aShort.getCorrect_answer();
+                assignmentId = aShort.getShort_id();
+                break;
+            case 3:
+                AssignmentJudgment judgment = assignmentJudgmentRepository.getAssignmentJudgmentById(id);
+                answer = judgment.getCorrect_answer();
+                assignmentId = judgment.getJudge_id();
+                break;
+        }
+
+        StudentAnswer studentAnswer = studentAnswerRepository.findByStudentNameAndAndAssignmentId(username, assignmentId+id);
+        if (studentAnswer == null)
+            return null;
+        else {
+            AssignmentRealAnswer realAnswer = new AssignmentRealAnswer();
+            realAnswer.setAnswer(answer);
+
+            return realAnswer;
+        }
+
+
     }
 }

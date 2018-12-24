@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @RestController
 @CrossOrigin
@@ -18,8 +19,8 @@ public class CourseController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/add_course_student/{user_name}", method = RequestMethod.POST)
-    public Success add_course_student(@PathVariable String user_name, @RequestBody Course course_json) {
+    @RequestMapping(value = "/add_course_student/{user_name}/{selectCode}", method = RequestMethod.POST)
+    public Success add_course_student(@PathVariable String user_name,@PathVariable String selectCode, @RequestBody Course course_json) {
         Success s = new Success();
         s.setSuccess(false);
 
@@ -47,6 +48,10 @@ public class CourseController {
                 break;
             }
         }
+
+        //验证选课码
+        if (!course.getSelectCode().equals(selectCode))
+            return s;
 
         //学生还未选这门课
         if (!ifChosen) {
@@ -86,6 +91,7 @@ public class CourseController {
 
         //创建新的course
         course.setCourse_number("0");
+
         courseService.saveCourse(course);
 
         Course course_in_db = courseService.findByCourseId(course_id);

@@ -15,6 +15,8 @@ public class MindmapService {
     private MindmapRepository mindmapRepository;
     @Autowired
     private NodeRepository nodeRepository;
+    @Autowired
+    private CourseService courseService;
 
     public Mindmap findByMindmapId(String id) {
         return mindmapRepository.findByMindmap_id(id);
@@ -28,8 +30,33 @@ public class MindmapService {
         mindmapRepository.delete(mindmap);
     }
 
+    public boolean deleteMindmapById(String mindmapId){
+        // 先确定有没有权限
+//        Mindmap mindmap = mindmapRepository.hasAuthToDeleteMap(mindmapId, username);
+//        if (mindmap == null)
+//            return false;
+
+        // 再删掉map有关的学生答案
+        courseService.deleteStudentAnsByMindmapId(mindmapId);
+
+        // 最后删掉相关节点
+        mindmapRepository.deleteMindmap(mindmapId);
+
+        return true;
+    };
+
     public void save(Mindmap mindmap) {
         mindmapRepository.save(mindmap);
+    }
+
+    public boolean resetName(String mindmap_id, String newName) {
+        if (mindmapRepository.findByMindmap_name(newName) != null)
+            return false;
+
+        Mindmap mindmap = mindmapRepository.findByMindmap_id(mindmap_id);
+        mindmap.setMindmap_name(newName);
+        mindmapRepository.save(mindmap);
+        return true;
     }
 
     /**

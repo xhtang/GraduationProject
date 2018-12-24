@@ -21,6 +21,9 @@ public class CourseService {
     @Autowired
     private TeacherRepository teacherRepository;
 
+    private final String verifyCodes = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+    private final int  verifySize = 6;
+
     public boolean deleteCourse(String user_name, String course_id, String course_name) {
         // 首先检查该用户有无权限
         Teacher teacher = teacherRepository.findByName(user_name);
@@ -118,6 +121,8 @@ public class CourseService {
     }
 
     public void saveCourse(Course course) {
+        String selectCode = generateSelectCode();
+        course.setSelectCode(selectCode);
         courseRepository.save(course);
     }
 
@@ -131,6 +136,24 @@ public class CourseService {
 
     public void save(Course course) {
         courseRepository.save(course);
+    }
+
+
+    private  String generateSelectCode() {
+        boolean flag = true;
+        String code = "";
+        while (flag) {
+            int codesLen = verifyCodes.length();
+            Random rand = new Random(System.currentTimeMillis());
+            StringBuilder verifyCode = new StringBuilder(verifySize);
+            for (int i = 0; i < verifySize; i++) {
+                verifyCode.append(verifyCodes.charAt(rand.nextInt(codesLen - 1)));
+            }
+            code = verifyCode.toString();
+            if (courseRepository.findBySelectCode(code) == null)
+                flag = false;
+        }
+        return code;
     }
 
 }

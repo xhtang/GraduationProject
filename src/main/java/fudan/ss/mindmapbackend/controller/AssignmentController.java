@@ -6,6 +6,7 @@ import fudan.ss.mindmapbackend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -210,6 +211,7 @@ public class AssignmentController {
         for (AssignmentMultiple multiple : multiples) {
             AssignmentMultipleStudent multiple_student = new AssignmentMultipleStudent();
 
+            multiple_student.setAssignmentLongId(multiple.getId());
             multiple_student.setTitle(multiple.getTitle());
             multiple_student.setOptionA(multiple.getOptionA());
             multiple_student.setOptionB(multiple.getOptionB());
@@ -235,6 +237,7 @@ public class AssignmentController {
         for (AssignmentJudgment judgment : judgments) {
             AssignmentJudgmentStudent judgment_student = new AssignmentJudgmentStudent();
 
+            judgment_student.setAssignmentLongId(judgment.getId());
             judgment_student.setTitle(judgment.getTitle());
             judgment_student.setAnswer("");
             judgments_student.add(judgment_student);
@@ -371,4 +374,15 @@ public class AssignmentController {
         return success;
     }
 
+
+    @RequestMapping(value = "/student_answer_node/{course_id}/{mindmap_id}/{node_id}/{username}", method = RequestMethod.GET)
+    public List<StudentAnswer> student_answer_node(@PathVariable String course_id, @PathVariable String mindmap_id, @PathVariable String node_id, @PathVariable String username) {
+        return nodeChildService.getStudentAnswersForANode(course_id, mindmap_id, node_id, username);
+    }
+
+    // type 传int类型，1,2,3分别表示选择题，简答题，和判断题
+    @RequestMapping(value = "/student_real_answer/{longId}/{type}/{username}", method = RequestMethod.GET)
+    public AssignmentRealAnswer getRealAnswer(@PathVariable Long longId, @PathVariable int type, @PathVariable String username) {
+        return nodeChildService.getRealAnswer(longId, type, username);
+    }
 }

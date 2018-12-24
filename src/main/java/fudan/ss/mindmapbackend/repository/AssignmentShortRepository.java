@@ -23,4 +23,5 @@ public interface AssignmentShortRepository extends Neo4jRepository<AssignmentSho
             "CREATE (m)-[:HAS_ASSIGNMENT_SHORT]->(n)")
     void createFather(@Param("id") Long id, @Param("course_mindmap") String course_mindmap, @Param("node_id") String node_id);
 
+    AssignmentShort getAssignmentShortById(Long id);
 }

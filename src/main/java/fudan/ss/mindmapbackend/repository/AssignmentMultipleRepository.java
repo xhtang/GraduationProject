@@ -22,4 +22,5 @@ public interface AssignmentMultipleRepository extends Neo4jRepository<Assignment
             "CREATE (m)-[:HAS_ASSIGNMENT_MULTI]->(n)")
     void createFather(@Param("id") Long id, @Param("course_mindmap") String course_mindmap, @Param("node_id") String node_id);
 
+    AssignmentMultiple getAssignmentMultipleById(Long id);
 }

@@ -13,6 +13,7 @@ public class Course {
     private String course_id;
     private String course_name;
     private String course_number;
+    private String selectCode;
 
     @Relationship(type = "OWN")
     private Set<Mindmap> mindmaps;
@@ -58,5 +59,13 @@ public class Course {
 
     public void setCourse_number(String course_number) {
         this.course_number = course_number;
+    }
+
+    public String getSelectCode() {
+        return selectCode;
+    }
+
+    public void setSelectCode(String selectCode) {
+        this.selectCode = selectCode;
     }
 }

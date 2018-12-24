@@ -13,4 +13,14 @@ public interface MindmapRepository extends Neo4jRepository<Mindmap, Long> {
 
     @Query("start mindmap = node({id}) match (mindmap)-[:HAS_ROOT]->(rootNode) return rootNode")
     Node findRootNode(@Param("id") long id);
+
+    @Query("match (c:Course) - [ro:OWN] - (m:Mindmap) - [*] -(n) where m.mindmap_id = {0} detach delete m,n")
+    void deleteMindmap(String mindmap_id);
+
+    @Query("match (t:Teacher) - [rt:TEACH_IN] - (c:Course) - [ro:OWN] - (m:Mindmap) " +
+            "where m.mindmap_id = {0} and t.name = {1} return m ")
+    Mindmap hasAuthToDeleteMap(String mindmapId, String username);
+
+    @Query("match (m:Mindmap) where m.mindmap_name = {0} return m")
+    Mindmap findByMindmap_name(String mindmap_name);
 }
