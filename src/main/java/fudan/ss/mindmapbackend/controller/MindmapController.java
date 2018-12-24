@@ -143,7 +143,7 @@ public class MindmapController {
         return success;
     }
 
-    @RequestMapping(value = "/mindmap_resetName/{mindmap_id}/{newName}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/mindmap_resetName/{mindmap_id}/{newName}", method = RequestMethod.PUT)
     public Success resetName(@PathVariable String mindmap_id, @PathVariable String newName) {
         Success success = new Success();
         boolean flag = mindmapService.resetName(mindmap_id, newName);
