@@ -5,6 +5,7 @@ public class Course_json {
     private String course_id;
     private String course_name;
     private String course_number;
+    private String selectCode;
 
     public String getCourse_id() {
         return course_id;
@@ -28,5 +29,13 @@ public class Course_json {
 
     public void setCourse_number(String course_number) {
         this.course_number = course_number;
+    }
+
+    public String getSelectCode() {
+        return selectCode;
+    }
+
+    public void setSelectCode(String selectCode) {
+        this.selectCode = selectCode;
     }
 }
