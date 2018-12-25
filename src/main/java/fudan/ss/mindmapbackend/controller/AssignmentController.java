@@ -201,9 +201,9 @@ public class AssignmentController {
         return s;
     }
 
-    @RequestMapping(value = "/multiples_student/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/multiples_student/{course_id}/{mindmap_id}/{node_id}/{student_name}", method = RequestMethod.GET)
     public List<AssignmentMultipleStudent> multiples_student(@PathVariable String course_id, @PathVariable String mindmap_id,
-                                                             @PathVariable String node_id) {
+                                                             @PathVariable String node_id, @PathVariable String student_name) {
 
         String multiId = course_id + " " + mindmap_id + " " + node_id;
         List<AssignmentMultiple> multiples = nodeChildService.findMultis(multiId);
@@ -218,8 +218,13 @@ public class AssignmentController {
             multiple_student.setOptionB(multiple.getOptionB());
             multiple_student.setOptionC(multiple.getOptionC());
             multiple_student.setOptionD(multiple.getOptionD());
-            multiple_student.setAnswer("");
-
+            
+            //
+            StudentAnswer studentAnswer = nodeChildService.getStudentAns(student_name, multiId+multiple.getId());
+            if (studentAnswer == null)
+                multiple_student.setAnswer("");
+            else 
+                multiple_student.setAnswer(studentAnswer.getAnswer());
             multiples_student.add(multiple_student);
 
         }
@@ -227,9 +232,9 @@ public class AssignmentController {
         return multiples_student;
     }
 
-    @RequestMapping(value = "/judgments_student/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/judgments_student/{course_id}/{mindmap_id}/{node_id}/{student_name}", method = RequestMethod.GET)
     public List<AssignmentJudgmentStudent> judgments_student(@PathVariable String course_id, @PathVariable String mindmap_id,
-                                                             @PathVariable String node_id) {
+                                                             @PathVariable String node_id, @PathVariable String student_name) {
 
         String judgeId = course_id + " " + mindmap_id + " " + node_id;
         List<AssignmentJudgment> judgments = nodeChildService.findJudgements(judgeId);
@@ -240,11 +245,43 @@ public class AssignmentController {
 
             judgment_student.setAssignmentLongId(judgment.getId());
             judgment_student.setTitle(judgment.getTitle());
-            judgment_student.setAnswer("");
+            
+            StudentAnswer studentAnswer = nodeChildService.getStudentAns(student_name, judgeId+judgment.getId());
+            if (studentAnswer == null)
+                judgment_student.setAnswer("");
+            else
+                judgment_student.setAnswer(studentAnswer.getAnswer());
+            
             judgments_student.add(judgment_student);
         }
 
         return judgments_student;
+    }
+
+    @RequestMapping(value = "/shorts_student/{course_id}/{mindmap_id}/{node_id}/{student_name}", method = RequestMethod.GET)
+    public List<AssignmentShortStudent> shorts_student(@PathVariable String course_id, @PathVariable String mindmap_id,
+                                                             @PathVariable String node_id, @PathVariable String student_name) {
+
+        String shortId = course_id + " " + mindmap_id + " " + node_id;
+        List<AssignmentShort> shorts = nodeChildService.findShorts(shortId);
+
+        List<AssignmentShortStudent> shorts_student = new LinkedList<>();
+        for (AssignmentShort aShort : shorts) {
+            AssignmentShortStudent short_student = new AssignmentShortStudent();
+
+            short_student.setAssignmentLongId(aShort.getId());
+            short_student.setTitle(aShort.getTitle());
+
+            StudentAnswer studentAnswer = nodeChildService.getStudentAns(student_name, shortId+aShort.getId());
+            if (studentAnswer == null)
+                short_student.setAnswer("");
+            else
+                short_student.setAnswer(studentAnswer.getAnswer());
+
+            shorts_student.add(short_student);
+        }
+
+        return shorts_student;
     }
 
     @RequestMapping(value = "/multiples_teacher/{course_id}/{mindmap_id}/{node_id}", method = RequestMethod.GET)
