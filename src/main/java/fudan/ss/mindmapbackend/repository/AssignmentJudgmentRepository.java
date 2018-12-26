@@ -23,5 +23,6 @@ public interface AssignmentJudgmentRepository extends Neo4jRepository<Assignment
             "CREATE (m)-[:HAS_ASSIGNMENT_JUDGMENT]->(n)")
     void createFather(@Param("id") Long id, @Param("course_mindmap") String course_mindmap, @Param("node_id") String node_id);
 
+    @Query("MATCH (a:Assignment_judgment) where ID(a) = {0} RETURN a")
     AssignmentJudgment getAssignmentJudgmentById(Long id);
 }
