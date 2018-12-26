@@ -140,11 +140,20 @@ public class CourseService {
 
 
     private  String generateSelectCode() {
+
         boolean flag = true;
         String code = "";
         while (flag) {
             int codesLen = verifyCodes.length();
             Random rand = new Random(System.currentTimeMillis());
+
+            try {
+                Thread.sleep(5);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             StringBuilder verifyCode = new StringBuilder(verifySize);
             for (int i = 0; i < verifySize; i++) {
                 verifyCode.append(verifyCodes.charAt(rand.nextInt(codesLen - 1)));
