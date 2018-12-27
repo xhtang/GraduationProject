@@ -148,7 +148,7 @@ public class CourseService {
             Random rand = new Random(System.currentTimeMillis());
 
             try {
-                Thread.sleep(5);
+                Thread.sleep(1);
             }
             catch (InterruptedException e) {
                 e.printStackTrace();
@@ -164,5 +164,4 @@ public class CourseService {
         }
         return code;
     }
-
 }
