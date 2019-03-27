@@ -1,0 +1,39 @@
+<nz-collapse id="resource-nz-collapse">
+  <!--文件资源面板-->
+  <nz-collapse-panel
+    [nzHeader]="'文件资源'"
+    [nzActive]="true"
+    [nzDisabled]="false">
+
+    <nz-list [nzDataSource]="material_names"
+             [nzRenderItem]="material_item">
+      <ng-template #material_item let-material_item>
+        <nz-list-item [nzContent]="material_item" [nzActions]="[downloadAction]">
+          <ng-template #downloadAction>
+            <a href="javascript:void(0)" (click)="download(material_item)">下载</a>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+
+  </nz-collapse-panel>
+
+  <!--链接资源面板-->
+  <nz-collapse-panel
+    [nzHeader]="'链接资源'"
+    [nzActive]="false"
+    [nzDisabled]="false">
+
+    <nz-list [nzDataSource]="links"
+             [nzRenderItem]="link_item">
+      <ng-template #link_item let-link_item>
+        <nz-list-item [nzContent]="link_item['link_name']" [nzActions]="[jumpAction]">
+          <ng-template #jumpAction>
+            <a target="_blank" href="{{ link_item['link_address'] }}">访问</a>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+
+  </nz-collapse-panel>
+</nz-collapse>

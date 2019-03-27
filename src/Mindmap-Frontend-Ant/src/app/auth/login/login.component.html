@@ -1,0 +1,23 @@
+
+<form nz-form>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="5">用户名</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input type="text" [(ngModel)]="user.user_name" name="userName">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="5">密码</nz-form-label>
+    <nz-form-control [nzSpan]="12">
+      <input nz-input type="password" [(ngModel)]="user.user_pwd" name="userPwd">
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-radio-group [(ngModel)]="user.identity" name="identity" style="float: right">
+      <label nz-radio nzValue="teacher">教师</label>
+      <label nz-radio nzValue="student">学生</label>
+    </nz-radio-group>
+  </nz-form-item>
+
+</form>

@@ -1,0 +1,48 @@
+ul.color-list {
+    list-style: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+li.color-item {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.nodeOp {
+    margin-right: 10px;
+}
+
+#jsmind_container {
+    margin-top: 10px;
+    height: 500px;
+    border: 1px gainsboro solid;
+    border-radius: 5px;
+}
+
+#empty {
+    display: inline-block;
+    background: #F5F5DC;
+    height: 30px;
+    width: 60px;
+    vertical-align: middle;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+#colorDiv {
+    display: inline-block;
+    background: linear-gradient(to right, #f00, #ffff00 , #0f0);
+    height: 30px;
+    width: 120px;
+    vertical-align: middle;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+#colorExplanation {
+    display: inline-block;
+    float: right;
+}

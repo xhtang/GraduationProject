@@ -1,0 +1,104 @@
+<nz-upload
+  nzName="courseware"
+  nzType="drag"
+  [nzMultiple]="true"
+  [nzLimit]="2"
+  [nzAction]="uploadUrl"
+  [nzFilter]="filters"
+  [nzFileList]="coursewareList"
+  (nzChange)="handleChange($event)">
+
+  <p class="ant-upload-drag-icon">
+    <i nz-icon type="inbox"></i>
+  </p>
+  <p class="ant-upload-text">上传课件资源</p>
+  <p class="ant-upload-hint">
+    点击或拖拽文件到此处上传，限制课件类型为pdf
+    (如课件类型为ppt，请先转格式再上传)
+  </p>
+
+</nz-upload>
+
+
+<nz-collapse id="courseware-nz-collapse">
+  <!--课件资源面板-->
+  <nz-collapse-panel
+    [nzHeader]="'Pdf课件'"
+    [nzActive]="true"
+    [nzDisabled]="false">
+
+    <nz-list [nzDataSource]="pdf_names"
+             [nzRenderItem]="pdf_item">
+      <ng-template #pdf_item let-pdf_item>
+        <nz-list-item [nzContent]="pdf_item" [nzActions]="[previewAction, downloadAction, removeAction]">
+          <ng-template #previewAction>
+            <a (click)="loadPdf(pdf_item)">观看</a>
+          </ng-template>
+          <ng-template #downloadAction>
+            <a (click)="download(pdf_item)">下载</a>
+          </ng-template>
+          <ng-template #removeAction>
+            <a (click)="removeCourseware(pdf_item)">移除</a>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+
+  </nz-collapse-panel>
+
+  <nz-collapse-panel
+    [nzHeader]="'视频课件'"
+    [nzActive]="true"
+    [nzDisabled]="false">
+
+    <nz-list [nzDataSource]="mp4_names"
+             [nzRenderItem]="mp4_item">
+      <ng-template #mp4_item let-mp4_item>
+        <nz-list-item [nzContent]="mp4_item" [nzActions]="[previewAction, downloadAction, removeAction]">
+          <ng-template #previewAction>
+            <a (click)="loadMp4(mp4_item)">观看</a>
+          </ng-template>
+          <ng-template #downloadAction>
+            <a (click)="download(mp4_item)">下载</a>
+          </ng-template>
+          <ng-template #removeAction>
+            <a (click)="removeCourseware(mp4_item)">移除</a>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+
+  </nz-collapse-panel>
+
+</nz-collapse>
+
+<div *ngIf="pdf_url!=''" style="margin-top: 15px;">
+  页码：
+  <nz-input-number
+
+    [(ngModel)]="page"
+    [nzMin]="1" [nzMax]="totalPages"
+    [nzStep]="1"
+    style="margin-top: 15px">
+  </nz-input-number> <button nz-button (click)="pdf_url=''" style="margin-left: 10px;"> 结束观看 </button>
+
+  <pdf-viewer
+    [src]="pdf_url"
+    [show-all]="false"
+    [page]="page"
+    [original-size]="false"
+    [autoresize]="true"
+    (after-load-complete)="afterLoadComplete($event)"
+    style="display: block; margin-top: 20px;">
+  </pdf-viewer>
+</div>
+
+<div *ngIf="mp4_url!=''" style="margin-top: 15px; padding: 10px;">
+
+  <button nz-button (click)="mp4_url=''" style="margin-left: 10px;"> 结束观看 </button>
+
+  <div style="margin-top: 15px;">
+    <video [src]="mp4_url" controls="controls" width="100%"></video>
+  </div>
+
+</div>

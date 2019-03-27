@@ -1,0 +1,11 @@
+<div>
+  <nz-radio-group (ngModelChange)="switchMode()" [(ngModel)]="modeValue">
+    <label nz-radio-button nzValue="homework">作业模式</label>
+    <label nz-radio-button nzValue="resource">资源模式</label>
+    <label nz-radio-button nzValue="courseware">课件模式</label>
+  </nz-radio-group>
+</div>
+
+<!-- 思维导图画布框 -->
+<div id="jsmind_container"
+     (click)="update_selected_knowledge_id()"></div>

@@ -1,0 +1,97 @@
+<nz-layout>
+  <nz-sider [nzWidth]="200" style="background:#fff;">
+
+    <!-- 侧边栏 -->
+
+    <ul nz-menu [nzMode]="'inline'" style="height:100%;">
+      <li nz-submenu>
+        <span title><i nz-icon type="picture"></i>思维导图</span>
+        <ul>
+
+          <!-- 思维导图操作 -->
+          <li nz-menu-group>
+            <span title>思维导图操作</span>
+            <ul>
+              <li nz-submenu>
+                <span title><i nz-icon type="picture"></i>切换思维导图</span>
+
+                <!-- 思维导图列表 -->
+                <ul>
+                  <li nz-menu-item *ngFor="let mindmap of mindmapList" (click)="switchMindmap(mindmap)">{{mindmap['name']}}</li>
+                </ul>
+              </li>
+              <li nz-menu-item (click)="mindmapComponent.screen_shot();">思维导图截图</li>
+            </ul>
+          </li>
+
+        </ul>
+      </li>
+
+    </ul>
+
+  </nz-sider>
+
+  <nz-layout style="padding: 0; height: 100%;">
+    <!-- 思维导图 -->
+
+    <nz-breadcrumb id="mindmap-nz-breadcrumb">
+      <nz-breadcrumb-item>{{course_id}}</nz-breadcrumb-item>
+      <nz-breadcrumb-item>{{currentMindmap?.name}}</nz-breadcrumb-item>
+      <nz-breadcrumb-item>{{mindmapComponent?.selected_node?.topic}}</nz-breadcrumb-item>
+      <nz-breadcrumb-item>{{tabsName[selectedIndex]}}</nz-breadcrumb-item>
+    </nz-breadcrumb>
+
+    <nz-content>
+      <nz-tabset
+        id="mindmap-tabset"
+        [nzTabPosition]="'top'"
+        [(nzSelectedIndex)]="selectedIndex"
+        [nzType]="'card'">
+        <!--思维导图-->
+        <nz-tab [nzTitle]="'思维导图'"
+                (nzDeselect)="updateData()">
+          <app-s-mindmap
+            *ngIf="currentMindmap"
+            [courseId]="course_id"
+            [mindmapId]="currentMindmap.id"
+            (selectNodeEvent)="onSelectedNodeChanged($event)">
+          </app-s-mindmap>
+        </nz-tab>
+
+        <!--作业-->
+        <nz-tab [nzTitle]="'作业'"
+                [nzDisabled]="selected_node_id===''">
+          <app-s-homework
+            *ngIf="selected_node_id"
+            [course_id]="course_id"
+            [mind_id]="currentMindmap.id"
+            [node_id]="selected_node_id">
+          </app-s-homework>
+        </nz-tab>
+
+        <!--资源-->
+        <nz-tab [nzTitle]="'资源'"
+                [nzDisabled]="selected_node_id===''">
+          <app-s-resource
+            *ngIf="selected_node_id"
+            [course_id]="course_id"
+            [mind_id]="currentMindmap.id"
+            [node_id]="selected_node_id">
+          </app-s-resource>
+        </nz-tab>
+
+        <!--课件-->
+        <nz-tab [nzTitle]="'课件'"
+                [nzDisabled]="selected_node_id===''">
+          <app-s-courseware
+            *ngIf="selected_node_id"
+            [course_id]="course_id"
+            [mind_id]="currentMindmap.id"
+            [node_id]="selected_node_id">
+          </app-s-courseware>
+        </nz-tab>
+      </nz-tabset>
+    </nz-content>
+
+  </nz-layout>
+</nz-layout>

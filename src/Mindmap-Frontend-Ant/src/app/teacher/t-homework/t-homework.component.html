@@ -1,0 +1,264 @@
+<button nz-button nzType="primary" class="releaseBtn"
+        (click)="openReleaseModal(newMultipleTitle, newMultipleContent, newMultipleFooter)">发布选择题</button>
+<button nz-button nzType="primary" class="releaseBtn"
+        (click)="openReleaseModal(newShortTitle, newShortContent, newShortFooter)">发布简答题</button>
+<button nz-button nzType="primary" class="releaseBtn"
+        (click)="openReleaseModal(newJudgeTitle, newJudgeContent, newJudgeFooter)">发布判断题</button>
+
+
+
+<nz-collapse id="homework-nz-collapse">
+  <!--单选题面板-->
+  <nz-collapse-panel
+    [nzHeader]="'选择题'"
+    [nzActive]="true"
+    [nzDisabled]="false">
+
+    <!--单选题列表-->
+    <ol>
+      <li
+        *ngFor="let multiple of multipleQuestions"
+        class="multiple">
+        <div class="title item"><b>{{multiple.title}}</b></div>
+        <div class="options item">
+          <div>
+            <span>A. </span><span class="optionA"> {{multiple.optionA}}</span>
+          </div>
+          <div>
+            <span>B. </span><span class="optionB"> {{multiple.optionB}}</span>
+          </div>
+          <div>
+            <span>C. </span><span class="optionC"> {{multiple.optionC}}</span>
+          </div>
+          <div>
+            <span>D. </span><span class="optionD"> {{multiple.optionD}}</span>
+          </div>
+        </div>
+        <div class="correct_answer item">
+          <span><b>正确答案：</b></span>
+          <span>{{multiple.correct_answer}}</span>
+        </div>
+        <div class="number item">
+          <span><b>正确率：</b></span>
+          <span class="correct_number">{{multiple.correct_number}}</span>
+          <span> / </span>
+          <span class="number">{{multiple.number}}</span>
+        </div>
+
+        <!--分割线-->
+        <nz-divider></nz-divider>
+
+      </li>
+    </ol>
+
+  </nz-collapse-panel>
+
+  <!--简答题面板-->
+  <nz-collapse-panel
+    [nzHeader]="'简答题'"
+    [nzActive]="false"
+    [nzDisabled]="false">
+
+    <!--简答题列表-->
+    <ol>
+      <li *ngFor="let short of shortQuestions" class="short">
+        <div class="title item"><b>{{short['title']}}</b></div>
+        <div class="correct_answer item">
+          <span><b>正确答案：</b></span>
+          <span>{{short['correct_answer']}}</span>
+        </div>
+
+        <p><b>学生回答：</b></p>
+        <nz-list [nzDataSource]="short['studentAnswers']" nzSize="small" [nzRenderItem]="item">
+          <ng-template #item let-item><nz-list-item [nzContent]="item['answer']"></nz-list-item></ng-template>
+        </nz-list>
+
+        <nz-divider></nz-divider>
+
+      </li>
+    </ol>
+
+  </nz-collapse-panel>
+
+
+  <!--判断题面板-->
+  <nz-collapse-panel
+    [nzHeader]="'判断题'"
+    [nzActive]="false"
+    [nzDisabled]="false">
+
+    <!--判断题列表-->
+    <ol>
+      <li *ngFor="let judge of judgeQuestions" class="short">
+        <div class="title item"><b>{{judge.title}}</b></div>
+        <div class="correct_answer item">
+          <span><b>正确答案：</b></span>
+          <span>{{judge.correct_answer=='T' ? '正确': '错误'}}</span>
+        </div>
+        <div class="number item">
+          <span><b>正确率：</b></span>
+          <span class="correct_number">{{judge.correct_number}}</span>
+          <span> / </span>
+          <span class="number">{{judge.number}}</span>
+        </div>
+
+        <nz-divider></nz-divider>
+
+      </li>
+    </ol>
+
+  </nz-collapse-panel>
+</nz-collapse>
+
+
+
+
+<!-- 模板 发布新的单选题 -->
+<ng-template #newMultipleTitle>
+  <span>发布单选题</span>
+</ng-template>
+<ng-template #newMultipleContent>
+
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">问题标题</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <textarea nz-input [(ngModel)]="multiple.title" name="mtitle"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">选项A</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input type="text" [(ngModel)]="multiple.optionA" name="mOptionA">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">选项B</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input type="text" [(ngModel)]="multiple.optionB" name="mOptionB">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">选项C</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input type="text" [(ngModel)]="multiple.optionC" name="mOptionC">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">选项D</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input type="text" [(ngModel)]="multiple.optionD" name="mOptionD">
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item style="text-align: center">
+      <nz-form-label [nzSpan]="5">正确答案</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-radio-group [(ngModel)]="multiple.correct_answer" name="mAnswer">
+          <label nz-radio nzValue="A">A</label>
+          <label nz-radio nzValue="B">B</label>
+          <label nz-radio nzValue="C">C</label>
+          <label nz-radio nzValue="D">D</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">分值(1-10)</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-input-number [(ngModel)]="multiple.value" [nzMin]="1" [nzMax]="10" [nzStep]="1" name="mScore"></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+
+</ng-template>
+<ng-template #newMultipleFooter>
+  <button nz-button nzType="primary"
+          (click)="releaseMultiple()"
+          [disabled]="multiple.title==''
+          || multiple.correct_answer==''
+          || multiple.optionA==''
+          || multiple.optionB==''
+          || multiple.optionC==''
+          || multiple.optionD==''">
+    提交
+  </button>
+</ng-template>
+
+
+
+<!-- 模板 发布新的简答题 -->
+<ng-template #newShortTitle>
+  <span>发布简答题</span>
+</ng-template>
+<ng-template #newShortContent>
+
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">问题标题</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <textarea nz-input type="text" [(ngModel)]="short.title" name="stitle"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">正确答案</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <textarea rows="4" nz-input [(ngModel)]="short.correct_answer" name="sAnswer"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+
+</ng-template>
+<ng-template #newShortFooter>
+  <button nz-button nzType="primary"
+          (click)="releaseShort()"
+          [disabled]="short.title=='' || short.correct_answer==''">
+    提交
+  </button>
+</ng-template>
+
+
+<!-- 模板 发布新的判断题 -->
+<ng-template #newJudgeTitle>
+  <span>发布判断题</span>
+</ng-template>
+<ng-template #newJudgeContent>
+
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">问题标题</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <textarea nz-input [(ngModel)]="judge.title" name="jTitle"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item style="text-align: center">
+      <nz-form-label [nzSpan]="5">正确答案</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-radio-group [(ngModel)]="judge.correct_answer" name="jAnswer">
+          <label nz-radio nzValue="T">正确</label>
+          <label nz-radio nzValue="F">错误</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">分值(1-10)</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-input-number [(ngModel)]="judge.value" [nzMin]="1" [nzMax]="10" [nzStep]="1" name="jScore"></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+</ng-template>
+<ng-template #newJudgeFooter>
+  <button nz-button nzType="primary"
+          (click)="releaseJudge()"
+          [disabled]="judge.title==''
+          || judge.correct_answer==''">
+    提交
+  </button>
+</ng-template>
+

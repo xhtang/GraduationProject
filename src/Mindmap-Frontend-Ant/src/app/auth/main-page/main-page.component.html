@@ -1,0 +1,23 @@
+<div id="title">
+  <h1>思维导图智能导学系统</h1>
+</div>
+
+<div id="introduction">
+  <p>思维导图·个性化·主动学习·讨论式教学</p>
+</div>
+
+<div *ngIf="!isLogin" id="login" class="buttonDiv">
+  <button type="button" class="btn btn-outline-dark" (click)="createLoginModal()">登录</button>
+</div>
+
+<div *ngIf="!isLogin" id="register" class="buttonDiv">
+  <button type="button" class="btn btn-outline-dark" (click)="createRegisterModal()">注册</button>
+</div>
+
+<div *ngIf="isLogin" id="enterCourse" class="buttonDiv">
+  <button type="button" class="btn btn-outline-dark" (click)="enterCourses()">进入课程页</button>
+</div>
+
+<div id="footer">
+  <p>© 2018 Advanced Web</p>
+</div>

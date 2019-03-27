@@ -1,0 +1,128 @@
+
+<!--<form nz-form>-->
+  <!--<div *ngIf="next==false">-->
+    <!--<nz-form-item>-->
+      <!--<nz-form-label [nzSpan]="5">用户名</nz-form-label>-->
+      <!--<nz-form-control [nzSpan]="12">-->
+        <!--<input nz-input type="text" maxlength="12" [(ngModel)]="user.user_name" name="userName" [placeholder]="'长度在1-12之间'">-->
+      <!--</nz-form-control>-->
+    <!--</nz-form-item>-->
+
+    <!--<nz-form-item>-->
+      <!--<nz-form-label [nzSpan]="5">密码</nz-form-label>-->
+      <!--<nz-form-control [nzSpan]="12">-->
+        <!--<input nz-input type="password" maxlength="12" [(ngModel)]="user.user_pwd" name="userPwd" [placeholder]="'长度在1-12之间'">-->
+      <!--</nz-form-control>-->
+    <!--</nz-form-item>-->
+
+    <!--<nz-form-item>-->
+
+      <!--<nz-form-label [nzSpan]="5">确认密码</nz-form-label>-->
+      <!--<nz-form-control [nzSpan]="12">-->
+        <!--<input nz-input type="password" [(ngModel)]="confirmedPwd" name="userPwd">-->
+      <!--</nz-form-control>-->
+
+    <!--</nz-form-item>-->
+
+    <!--<nz-form-item>-->
+      <!--<nz-radio-group [(ngModel)]="user.identity" name="identity" style="float: right">-->
+        <!--<label nz-radio nzValue="teacher">教师</label>-->
+        <!--<label nz-radio nzValue="student">学生</label>-->
+      <!--</nz-radio-group>-->
+    <!--</nz-form-item>-->
+
+    <!--<nz-form-item>-->
+      <!--<div nz-row>-->
+        <!--<div nz-col [nzSpan]="24" style="text-align: right;">-->
+          <!--<button nz-button (click)="gotoNext()">下一步</button>-->
+          <!--<button nz-button (click)="destroyModal()">退出</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</nz-form-item>-->
+  <!--</div>-->
+
+  <!--<div *ngIf="next==true">-->
+    <!--<nz-form-item>-->
+      <!--<nz-form-label [nzSpan]="5">邮箱</nz-form-label>-->
+
+      <!--<nz-form-control >-->
+        <!--<div nz-row [nzGutter]="8">-->
+          <!--<div nz-col [nzSpan]="12">-->
+            <!--<input nz-input type="text" [(ngModel)]="user.email" name="email">-->
+          <!--</div>-->
+          <!--<div nz-col [nzSpan]="6">-->
+            <!--<button nz-button (click)="sendCode()" [disabled]="isChecking">发送验证码</button>-->
+          <!--</div>-->
+        <!--</div>-->
+
+      <!--</nz-form-control>-->
+
+
+
+    <!--</nz-form-item>-->
+    <!--<nz-form-item>-->
+      <!--<nz-form-label [nzSpan]="5">验证码</nz-form-label>-->
+      <!--<nz-form-control [nzSpan]="12">-->
+        <!--<input nz-input type="text" [(ngModel)]="user.code" name="code">-->
+      <!--</nz-form-control>-->
+    <!--</nz-form-item>-->
+
+    <!--<nz-form-item>-->
+      <!--<div nz-row>-->
+        <!--<div nz-col [nzSpan]="24" style="text-align: right;">-->
+          <!--<button nz-button (click)="goBack()">上一步</button>-->
+          <!--<button nz-button [nzType]="'primary'"-->
+                  <!--[disabled]="user.email==='' || user.code===''"-->
+                  <!--(click)="onSubmit()">提交</button>-->
+          <!--<button nz-button (click)="destroyModal()">退出</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</nz-form-item>-->
+  <!--</div>-->
+
+<!--</form>-->
+
+
+<form nz-form>
+  <div *ngIf="next==false">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">用户名</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input type="text" maxlength="12" [(ngModel)]="user.user_name" name="userName" [placeholder]="'长度在1-12之间'">
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">密码</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input type="password" maxlength="12" [(ngModel)]="user.user_pwd" name="userPwd" [placeholder]="'长度在1-12之间'">
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+
+      <nz-form-label [nzSpan]="5">确认密码</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input type="password" [(ngModel)]="confirmedPwd" name="userPwd">
+      </nz-form-control>
+
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-radio-group [(ngModel)]="user.identity" name="identity" style="float: right">
+        <label nz-radio nzValue="teacher">教师</label>
+        <label nz-radio nzValue="student">学生</label>
+      </nz-radio-group>
+    </nz-form-item>
+
+    <nz-form-item>
+      <div nz-row>
+        <div nz-col [nzSpan]="24" style="text-align: right;">
+          <button nz-button (click)="registerRightNow()">下一步</button>
+          <button nz-button (click)="destroyModal()">退出</button>
+        </div>
+      </div>
+    </nz-form-item>
+  </div>
+
+</form>

@@ -1,0 +1,54 @@
+<nz-tabset style="margin: 30px;">
+  <nz-tab nzTitle="已选课程">
+
+    <!--<button nz-button (click)="">选课</button>-->
+
+    <div id="courses">
+      <div nz-row [nzGutter]="20">
+        <div *ngFor="let course of courses" nz-col class="gutter-row" [nzSpan]="8">
+          <div class="course">
+            <div class="courseName">{{course.course_id}}: <b>{{course.course_name}}</b></div>
+            <div class="studentNumber">课程人数：{{course.course_number}}</div>
+            <button nz-button type="button" (click)="enterCourse(course.course_id)">进入课程</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </nz-tab>
+  <nz-tab nzTitle="添加课程">
+
+    <input type="text" style="width: 300px;" [(ngModel)]="intentionName" nz-input placeholder="通过输入全名来搜索课程">
+    <button nz-button nzType="primary" style="margin-left: 10px;" (click)="search()">搜索</button>
+
+    <div id="allCourse">
+      <div nz-row [nzGutter]="20">
+
+        <div *ngIf="intentionCourse" nz-col class="gutter-row" [nzSpan]="8">
+          <div class="course">
+            <div class="courseName">{{intentionCourse.course_id}}: <b>{{intentionCourse.course_name}}</b></div>
+            <div class="studentNumber">课程人数：{{intentionCourse.course_number}}</div>
+            <button nz-button type="button"
+                    (click)="inputCodeModal(inputCodeTitle, inputCodeContent, inputCodeFooter)">选课</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </nz-tab>
+
+</nz-tabset>
+
+
+<!-- 模板 输入选课码 -->
+<ng-template #inputCodeTitle>
+  <span>选课码</span>
+</ng-template>
+<ng-template #inputCodeContent>
+  <input nz-input placeholder="请输入正确选课码，选课码可通过任课老师获得。" [(ngModel)]="code">
+</ng-template>
+<ng-template #inputCodeFooter>
+  <button nz-button nzType="primary" (click)="onSubmit()">提交</button>
+</ng-template>

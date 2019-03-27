@@ -1,0 +1,16 @@
+<nz-layout class="layout" style="min-height: 100%;">
+
+  <nz-header>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'" style="line-height: 64px;">
+      <li nz-menu-item><a routerLink="/main">首页</a></li>
+      <li nz-menu-item><a routerLink="/t/courses">所有课程</a></li>
+
+      <li style="float: right;" >你好，{{ username }} | <a href="javascript:void(0)" (click)="logOut()">登出</a> </li>
+    </ul>
+
+  </nz-header>
+
+  <!-- 课程列表或者课程主页 -->
+  <router-outlet></router-outlet>
+
+</nz-layout>

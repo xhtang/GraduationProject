@@ -1,0 +1,68 @@
+<div class="opBtnDiv" *ngIf="!accuracyMode">
+  <nz-dropdown class="nodeOp" [nzDisabled]="selected_node_id === '' || accuracyMode">
+    <button nz-button nz-dropdown><span>改变颜色</span> <i nz-icon type="down"></i></button>
+    <ul nz-menu>
+      <li nz-submenu
+          [(colorPicker)]="font_color"
+          [cpOKButton]="true"
+          [cpOKButtonText]="'确定'"
+          (colorPickerSelect)="change_font_color(font_color)">
+        <span title>
+          改变字体颜色
+        </span>
+      </li>
+      <li nz-submenu  [(colorPicker)]="node_color"
+          [cpOKButton]="true"
+          [cpOKButtonText]="'确定'"
+          (colorPickerSelect)="change_node_color(node_color)">
+        <span title>
+          改变背景颜色
+        </span>
+      </li>
+    </ul>
+  </nz-dropdown>
+
+
+
+  <nz-dropdown class="nodeOp" [nzDisabled]="selected_node_id === '' || accuracyMode">
+    <button nz-button nz-dropdown><span>添加节点</span> <i nz-icon type="down"></i></button>
+
+    <ul nz-menu>
+      <li nz-menu-item (click)="add_brother()">
+        添加兄弟节点
+      </li>
+      <li nz-menu-item (click)="add_child()">
+        <a>添加子节点</a>
+      </li>
+
+    </ul>
+  </nz-dropdown>
+
+  <button nz-button (click)="remove()" [disabled]="selected_node_id === '' || accuracyMode">删除节点</button>
+
+  <button nz-button style="float: right;" (click)="save()" [disabled]="!isChanged || accuracyMode">保存</button>
+
+</div>
+
+<div class="opBtnDiv" *ngIf="accuracyMode">
+
+  <button nz-button (click)="switchShowBarCharts()">显示答题情况柱状图</button>
+
+  <div id="colorExplanation">
+
+    <div id="empty"></div>
+    没有答题数据
+
+    <div id="colorDiv"></div>
+    从左到右准确率逐渐提高
+  </div>
+
+
+</div>
+
+<div *ngIf="accuracyMode && showBarCharts" style="margin-top: 15px;" echarts [options]="chartOption" class="demo-chart"></div>
+
+<!-- 思维导图画布框 -->
+<div id="jsmind_container"
+     (click)="update_selected_knowledge_id()"
+     (dblclick)="updateDblClkChangedStatus()"></div>

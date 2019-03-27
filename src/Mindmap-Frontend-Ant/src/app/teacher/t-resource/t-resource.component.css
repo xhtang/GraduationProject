@@ -1,0 +1,14 @@
+.uploadBtn {
+  margin-top: 20px;
+}
+
+#resource-nz-collapse {
+  margin-top: 20px;
+}
+
+#uploadLinkBtn {
+  margin-top: 16px;
+}
+
+:host ::ng-deep nz-upload { display: block; }
+:host ::ng-deep .ant-upload.ant-upload-drag { height: 180px; }

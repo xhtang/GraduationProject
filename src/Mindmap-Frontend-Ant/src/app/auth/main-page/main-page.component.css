@@ -1,0 +1,60 @@
+div {
+    text-align: center;
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: #006699;
+}
+
+button {
+    width: 120px;
+    height: 50px;
+    border-color: lightgray;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all .5s;
+}
+
+button:hover {
+
+    color: white;
+    background: #111111;
+}
+
+.buttonDiv {
+    margin: auto;
+    width: 50%;
+    margin-top: 30px;
+}
+
+#title {
+    background-color: black;
+    padding: 1%;
+    margin-top: 20%;
+}
+
+#title h1 {
+    color: white;
+    font-weight: normal;
+}
+
+#introduction {
+    color: lightslategrey;
+    text-align: right;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+}
+
+#footer p {
+    color: lightgray;
+}

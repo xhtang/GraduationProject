@@ -1,0 +1,85 @@
+
+<nz-upload
+  nzName="material"
+  nzType="drag"
+  [nzMultiple]="true"
+  [nzLimit]="2"
+  [nzAction]="uploadUrl"
+  [nzFileList]="resourceList"
+  (nzChange)="handleChange($event)">
+
+  <p class="ant-upload-drag-icon">
+    <i nz-icon type="inbox"></i>
+  </p>
+  <p class="ant-upload-text">上传文件资源</p>
+  <p class="ant-upload-hint">点击或拖拽文件到此处上传</p>
+
+
+</nz-upload>
+
+
+
+<button nz-button [nzType]="'primary'" id="uploadLinkBtn" (click)="openLinkModal(newLinkTitle, newLinkContent, newLinkFooter)">
+  上传资源链接
+</button>
+
+
+<nz-collapse id="resource-nz-collapse">
+  <!--文件资源面板-->
+  <nz-collapse-panel
+    [nzHeader]="'文件资源'"
+    [nzActive]="true"
+    [nzDisabled]="false">
+
+    <nz-list [nzDataSource]="material_names"
+             [nzRenderItem]="material_item">
+      <ng-template #material_item let-material_item>
+        <nz-list-item [nzContent]="material_item" [nzActions]="[downloadAction, removeAction]">
+          <ng-template #downloadAction>
+            <a (click)="download(material_item)">下载</a>
+          </ng-template>
+          <ng-template #removeAction>
+            <a (click)="removeMaterial(material_item)">移除</a>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+
+
+  </nz-collapse-panel>
+
+  <!--链接资源面板-->
+  <nz-collapse-panel
+    [nzHeader]="'链接资源'"
+    [nzActive]="false"
+    [nzDisabled]="false">
+
+    <nz-list [nzDataSource]="links"
+             [nzRenderItem]="link_item">
+      <ng-template #link_item let-link_item>
+        <nz-list-item [nzContent]="link_item['link_name']" [nzActions]="[jumpAction, removeAction]">
+          <ng-template #jumpAction>
+            <a target="_blank" href="{{ link_item['link_address'] }}">访问</a>
+          </ng-template>
+          <ng-template #removeAction>
+            <a (click)="removeLink(link_item['link_name'], link_item['node'])">移除</a>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+
+  </nz-collapse-panel>
+</nz-collapse>
+
+
+<!-- 模板 创建新的资源链接 -->
+<ng-template #newLinkTitle>
+  <span>发布新资源链接</span>
+</ng-template>
+<ng-template #newLinkContent>
+  <input nz-input placeholder="请输入资源名称" [(ngModel)]="link.link_name" style="margin-bottom: 10px;">
+  <input nz-input placeholder="请输入资源url，需要以http或https开头。" [(ngModel)]="link.link_address">
+</ng-template>
+<ng-template #newLinkFooter>
+  <button nz-button nzType="primary" (click)="uploadLink()">提交</button>
+</ng-template>

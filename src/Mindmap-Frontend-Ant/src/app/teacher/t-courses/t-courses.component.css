@@ -1,0 +1,36 @@
+
+.buttonDiv {
+    margin-left: 50px;
+}
+
+#courses {
+    margin: 0 30px;
+}
+
+.course {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    text-align: center;
+    padding:15px;
+    margin-top: 15px;
+}
+
+.courseName {
+    background-color: #1b1e21;
+    font-size: larger;
+    padding: 5px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.studentNumber {
+    margin: 10px;
+}
+
+.selectCode {
+    margin: 10px;
+}
+
+#addCourse {
+    margin-top: 20px;
+}
