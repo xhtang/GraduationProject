@@ -60,7 +60,7 @@ public class CourseService {
             //course的选课人数加1
             int number_before = Integer.parseInt(course.getCourse_number());
             course.setCourse_number((number_before + 1) + "");
-            saveCourse(course);
+            courseRepository.save(course);
 
             Course course_in_db = courseRepository.findByCourseId(course_id);
             //再创建course和student的关系
@@ -87,6 +87,7 @@ public class CourseService {
 
         //创建新的course
         course.setCourse_number("0");
+        course.setSelectCode(generateSelectCode());
 
         courseRepository.save(course);
 
@@ -204,11 +205,6 @@ public class CourseService {
         return courseRepository.findByCourseId(courseId);
     }
 
-    public void saveCourse(Course course) {
-        String selectCode = generateSelectCode();
-        course.setSelectCode(selectCode);
-        courseRepository.save(course);
-    }
 
     public Course[] findCourses() {
         return courseRepository.findAllCourses();
