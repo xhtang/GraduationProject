@@ -82,6 +82,7 @@ public class CourseController {
                 course_jsons[i].setCourse_name(courses[i].getCourse_name());
                 course_jsons[i].setCourse_number(courses[i].getCourse_number());
                 course_jsons[i].setSelectCode(courses[i].getSelectCode());
+
             }
         }
         return course_jsons;
